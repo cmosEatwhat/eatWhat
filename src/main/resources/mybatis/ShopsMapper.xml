@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eatwhat.dao.ShopsMapper">
+    <resultMap id="BaseResultMap" type="com.lanqi.common.entity.Shops">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="shops_name" property="name" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATETIME"/>
+        <result column="update_time" property="updateTime" jdbcType="DATETIME"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        shops_name,
+        create_time,
+        update_time
+    </sql>
+
+    <!--根据id查询-->
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from shops
+        where id = #{recordId}
+    </select>
+
+
+    <!--根据id集合查询-->
+    <select id="findByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shops
+        <if test="shops !=null">
+            <where>
+                <if test="shops.id != null">AND id = #{shops.id}</if>
+                <if test="shops.name != null and shops.name !='' ">AND shops_name like CONCAT('%',#{shops.name},'%')</if>
+                <if test="shops.createTime != null">AND create_time = #{shops.createTime}</if>
+                <if test="shops.updateTime != null">AND update_time = #{shops.updateTime}</if>
+            </where>
+        </if>
+        <if test="pageRequest != null">
+            <choose>
+                <when test="pageRequest.sortList != null">
+                    <foreach collection="pageRequest.sortList" open="order by" item="sort" separator=",">
+                    ${sort.jdbcField} ${sort.sortType}
+                    </foreach>
+                </when>
+                <otherwise>
+                    order by id desc
+                </otherwise>
+            </choose>
+            <if test="pageRequest.offset != null and pageRequest.pageSize != null">
+                limit #{pageRequest.offset}, #{pageRequest.pageSize}
+            </if>
+        </if>
+    </select>
+
+
+    <!--根据参数分页查询-->
+    <select id="findByIdArr" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shops
+        WHERE id IN
+        <foreach collection="idArr" open="(" close=")" item="recordId" separator=",">
+            #{recordId}
+        </foreach>
+    </select>
+
+
+    <!--根据条件计数-->
+    <select id="count" resultType="int">
+        SELECT
+        COUNT(id)
+        FROM shops
+            <where>
+                <if test="id != null">AND id = #{id}</if>
+                <if test="name != null and name !='' ">
+                    AND shops_name like CONCAT('%',#{name},'%')
+                </if>
+                <if test="createTime != null">AND create_time = #{createTime}</if>
+                <if test="updateTime != null">AND update_time = #{updateTime}</if>
+            </where>
+    </select>
+
+
+    <!--添加-->
+    <insert id="saveShops" parameterType="com.lanqi.common.entity.Shops" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into shops
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name !=''">
+                shops_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name !=''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATETIME},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=DATETIME},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--修改-->
+    <update id="updateShops" parameterType="com.lanqi.common.entity.Shops">
+        update shops
+        <set>
+            <if test="name != null and name !=''">
+                shops_name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATETIME},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=DATETIME},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!--根据id删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE FROM shops
+        WHERE id = #{recordId}
+    </delete>
+
+
+    <!--根据id集合删除-->
+    <delete id="deleteByIdArr">
+        DELETE FROM shops
+        WHERE id IN
+        <foreach collection="idArr" open="(" close=")" item="recordId" separator=",">
+            #{recordId}
+        </foreach>
+    </delete>
+
+</mapper>

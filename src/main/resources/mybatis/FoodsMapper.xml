@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eatwhat.dao.FoodsMapper">
+    <resultMap id="BaseResultMap" type="com.lanqi.common.entity.Foods">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="foods_name" property="name" jdbcType="VARCHAR"/>
+        <result column="foods_price" property="price" jdbcType="DECIMAL"/>
+        <result column="foods_score" property="score" jdbcType="DOUBLE"/>
+        <result column="foods_image" property="image" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATETIME"/>
+        <result column="update_time" property="updateTime" jdbcType="DATETIME"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        foods_name,
+        foods_price,
+        foods_score,
+        foods_image,
+        create_time,
+        update_time
+    </sql>
+
+    <!--根据id查询-->
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from foods
+        where id = #{recordId}
+    </select>
+
+
+    <!--根据id集合查询-->
+    <select id="findByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from foods
+        <if test="foods !=null">
+            <where>
+                <if test="foods.id != null">AND id = #{foods.id}</if>
+                <if test="foods.name != null and foods.name !='' ">AND foods_name like CONCAT('%',#{foods.name},'%')</if>
+                <if test="foods.price != null">AND foods_price = #{foods.price}</if>
+                <if test="foods.score != null">AND foods_score = #{foods.score}</if>
+                <if test="foods.image != null and foods.image !='' ">AND foods_image like CONCAT('%',#{foods.image},'%')</if>
+                <if test="foods.createTime != null">AND create_time = #{foods.createTime}</if>
+                <if test="foods.updateTime != null">AND update_time = #{foods.updateTime}</if>
+            </where>
+        </if>
+        <if test="pageRequest != null">
+            <choose>
+                <when test="pageRequest.sortList != null">
+                    <foreach collection="pageRequest.sortList" open="order by" item="sort" separator=",">
+                    ${sort.jdbcField} ${sort.sortType}
+                    </foreach>
+                </when>
+                <otherwise>
+                    order by id desc
+                </otherwise>
+            </choose>
+            <if test="pageRequest.offset != null and pageRequest.pageSize != null">
+                limit #{pageRequest.offset}, #{pageRequest.pageSize}
+            </if>
+        </if>
+    </select>
+
+
+    <!--根据参数分页查询-->
+    <select id="findByIdArr" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM foods
+        WHERE id IN
+        <foreach collection="idArr" open="(" close=")" item="recordId" separator=",">
+            #{recordId}
+        </foreach>
+    </select>
+
+
+    <!--根据条件计数-->
+    <select id="count" resultType="int">
+        SELECT
+        COUNT(id)
+        FROM foods
+            <where>
+                <if test="id != null">AND id = #{id}</if>
+                <if test="name != null and name !='' ">
+                    AND foods_name like CONCAT('%',#{name},'%')
+                </if>
+                <if test="price != null">AND foods_price = #{price}</if>
+                <if test="score != null">AND foods_score = #{score}</if>
+                <if test="image != null and image !='' ">
+                    AND foods_image like CONCAT('%',#{image},'%')
+                </if>
+                <if test="createTime != null">AND create_time = #{createTime}</if>
+                <if test="updateTime != null">AND update_time = #{updateTime}</if>
+            </where>
+    </select>
+
+
+    <!--添加-->
+    <insert id="saveFoods" parameterType="com.lanqi.common.entity.Foods" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into foods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name !=''">
+                foods_name,
+            </if>
+            <if test="price != null">
+                foods_price,
+            </if>
+            <if test="score != null">
+                foods_score,
+            </if>
+            <if test="image != null and image !=''">
+                foods_image,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name !=''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="score != null">
+                #{score,jdbcType=DOUBLE},
+            </if>
+            <if test="image != null and image !=''">
+                #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATETIME},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=DATETIME},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--修改-->
+    <update id="updateFoods" parameterType="com.lanqi.common.entity.Foods">
+        update foods
+        <set>
+            <if test="name != null and name !=''">
+                foods_name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                foods_price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="score != null">
+                foods_score = #{score,jdbcType=DOUBLE},
+            </if>
+            <if test="image != null and image !=''">
+                foods_image = #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATETIME},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=DATETIME},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!--根据id删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE FROM foods
+        WHERE id = #{recordId}
+    </delete>
+
+
+    <!--根据id集合删除-->
+    <delete id="deleteByIdArr">
+        DELETE FROM foods
+        WHERE id IN
+        <foreach collection="idArr" open="(" close=")" item="recordId" separator=",">
+            #{recordId}
+        </foreach>
+    </delete>
+
+</mapper>

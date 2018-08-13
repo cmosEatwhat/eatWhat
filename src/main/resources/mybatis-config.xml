@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="User" type="com.model.user.User"/>
+        <typeAlias alias="FriendLink" type="com.model.web.FriendLink"/>
+         <typeAlias alias="Menu" type="com.model.sys.Menu"/>
+         <typeAlias alias="Role" type="com.model.sys.Role"/>
+         <typeAlias alias="Dict" type="com.model.sys.Dict"/>
+         <typeAlias alias="Test" type="com.model.test.Test"/>
+         <typeAlias alias="Quarz" type="com.model.tool.Quarz"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="resources/mybtis/onmentMapper.xml" />
+        <mapper resource="resources/mybtis/FoodsMapper.xml" />
+        <mapper resource="resources/mybtis/ScoreMapper.xml" />
+        <mapper resource="resources/mybtis/SellerMapper.xml" />
+        <mapper resource="resources/mybtis/ShopsMapper.xml" />
+    </mappers>
+</configuration>
