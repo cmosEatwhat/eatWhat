@@ -4,10 +4,7 @@ import com.eatwhat.entity.Conment;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ConmentService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -72,9 +69,9 @@ public class ConmentController {
      * @des 根据id查询
      * @param recordId
      */
-    @RequestMapping(value = "/find")
+    @RequestMapping(value = "/find.do",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse findConmentById(@RequestParam("recordId") String recordId)  {
+    public ServerResponse findConmentById( String recordId)  {
         return new ServerResponse<Conment>().createBySuccess(conmentService.findById(recordId));
     }
 
@@ -82,7 +79,7 @@ public class ConmentController {
      * @des 根据id集合查询
      * @param recordIdArr
      */
-    @RequestMapping(value = "/find/list")
+    @RequestMapping(value = "/find/list",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse findConmentByIdList(@RequestParam("recordIdArr") Long[] recordIdArr)  {
         return new ServerResponse<List<Conment>>().createBySuccess(conmentService.findByIdArr(recordIdArr));

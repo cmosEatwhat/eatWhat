@@ -3,7 +3,7 @@
 <mapper namespace="com.eatwhat.dao.ConmentMapper">
     <resultMap id="BaseResultMap" type="com.eatwhat.entity.Conment">
         <result column="id" property="id" jdbcType="BIGINT"/>
-        <result column="conment-context" property="conment-context" jdbcType="VARCHAR"/>
+        <result column="conment_context" property="conmentContext" jdbcType="VARCHAR"/>
         <result column="food_id" property="foodId" jdbcType="BIGINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
@@ -11,7 +11,7 @@
 
     <sql id="Base_Column_List">
         id,
-        conment-context,
+        conment_context,
         food_id,
         create_time,
         update_time
@@ -34,7 +34,7 @@
         <if test="conment !=null">
             <where>
                 <if test="conment.id != null">AND id = #{conment.id}</if>
-                <if test="conment.conment-context != null and conment.conment-context !='' ">AND conment-context like CONCAT('%',#{conment.conment-context},'%')</if>
+                <if test="conment.conment_context != null and conment.conment_context !='' ">AND conment-context like CONCAT('%',#{conment.conment-context},'%')</if>
                 <if test="conment.foodId != null">AND food_id = #{conment.foodId}</if>
                 <if test="conment.createTime != null">AND create_time = #{conment.createTime}</if>
                 <if test="conment.updateTime != null">AND update_time = #{conment.updateTime}</if>
