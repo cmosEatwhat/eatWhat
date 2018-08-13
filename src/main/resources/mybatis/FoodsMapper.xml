@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.eatwhat.dao.FoodsMapper">
-    <resultMap id="BaseResultMap" type="com.lanqi.common.entity.Foods">
+    <resultMap id="BaseResultMap" type="com.eatwhat.entity.Foods">
         <result column="id" property="id" jdbcType="BIGINT"/>
         <result column="foods_name" property="name" jdbcType="VARCHAR"/>
         <result column="foods_price" property="price" jdbcType="DECIMAL"/>
         <result column="foods_score" property="score" jdbcType="DOUBLE"/>
         <result column="foods_image" property="image" jdbcType="VARCHAR"/>
-        <result column="create_time" property="createTime" jdbcType="DATETIME"/>
-        <result column="update_time" property="updateTime" jdbcType="DATETIME"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -98,7 +98,7 @@
 
 
     <!--添加-->
-    <insert id="saveFoods" parameterType="com.lanqi.common.entity.Foods" useGeneratedKeys="true"
+    <insert id="saveFoods" parameterType="com.eatwhat.entity.Foods" useGeneratedKeys="true"
             keyProperty="id">
         insert into foods
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -145,7 +145,7 @@
 
 
     <!--修改-->
-    <update id="updateFoods" parameterType="com.lanqi.common.entity.Foods">
+    <update id="updateFoods" parameterType="com.eatwhat.entity.Foods">
         update foods
         <set>
             <if test="name != null and name !=''">

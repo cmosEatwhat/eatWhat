@@ -62,7 +62,11 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
         <property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath:mybatis/*.xml"></property>
     </bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.eatwhat.dao"></property>
+	</bean>
 
     <!--
         3. mybatis自动扫描加载Sql映射文件/接口 : MapperScannerConfigurer sqlSessionFactory
@@ -94,14 +98,5 @@
 	        <tx:method name="insert" propagation="REQUIRED" read-only="false"/>  
 	    </tx:attributes>  
 	</tx:advice>  
-	  
-	<aop:config proxy-target-class="true">  
-	    <aop:pointcut id="testService" expression="execution (* com.service.*.*(..))"/>  
-	    <aop:advisor advice-ref="advice" pointcut-ref="testService"/>  
-	</aop:config>  
 
-	<!-- 任务调度用 -->
-	<bean id="quartzService" class="com.service.sys.QuartzService"/>
-	<bean id="springContextUtil" class="com.util.SpringContextUtil"></bean>
-	
 </beans>

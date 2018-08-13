@@ -1,12 +1,10 @@
 package com.eatwhat.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.eatwhat.entity.enums.ErrorCode;
-import com.eatwhat.entity.exception.MyException;
-import com.eatwhat.entity.utils.PageInfo;
-import com.eatwhat.entity.utils.PageRequestParams;
+import com.alibaba.druid.support.json.JSONUtils;
 import com.eatwhat.dao.ScoreMapper;
 import com.eatwhat.entity.Score;
+import com.eatwhat.entity.comment.ErrorCode;
+import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ScoreService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -38,11 +36,11 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     @Transactional
     public Score saveScore(Score score){
-        log.info("添加score -> score={}",JSON.toJSONString(score));
-        score.setCreateTime(System.currentTimeMillis());
+        log.info("添加score -> score={}",JSONUtils.toJSONString(score));
+//        score.setCreateTime(System.currentTimeMillis());
         int saveResult = scoreMapper.saveScore(score);
         if (saveResult < 1) {
-            throw new MyException(ErrorCode.SAVE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.SAVE_FAIL);
         }
         return findById(String.valueOf(score.getId()));
     }
@@ -54,13 +52,13 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     @Transactional
     public Score updateScore(Score score){
-        log.info("修改score-> score={}",JSON.toJSONString(score));
+        log.info("修改score-> score={}",JSONUtils.toJSONString(score));
         if(null == score.getId()){
-            throw new MyException(ErrorCode.UPDATE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
         }
         int updateResult = scoreMapper.updateScore(score);
         if (updateResult < 1) {
-            throw new MyException(ErrorCode.UPDATE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
         }
         return findById(String.valueOf(score.getId()));
     }
@@ -74,11 +72,11 @@ public class ScoreServiceImpl implements ScoreService {
     public int deleteById(String recordId){
         log.info("删除score -> recordId={}",recordId);
         if(StringUtils.isEmpty(recordId)){
-            throw new MyException(ErrorCode.DELETE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.DELETE_FAIL);
         }
         int delResult = scoreMapper.deleteById(recordId);
         if (delResult < 1) {
-            throw new MyException(ErrorCode.DELETE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.DELETE_FAIL);
         }
         return delResult;
     }
@@ -90,9 +88,9 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     @Transactional
     public int deleteByIdArr(Long[] idArr){
-        log.info("批量删除score -> idArr={}",JSON.toJSONString(idArr));
+        log.info("批量删除score -> idArr={}",JSONUtils.toJSONString(idArr));
         if(null == idArr || 0 == idArr.length){
-            throw new MyException(ErrorCode.REQUEST_ERROR);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.REQUEST_PARAMS_ERROR);
         }
         return scoreMapper.deleteByIdArr(idArr);
     }
@@ -115,7 +113,7 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     @Transactional(readOnly = true)
     public List<Score> findByIdArr(Long[] idArr){
-        log.info("根据主键集合查询score -> idArr={}",JSON.toJSONString(idArr));
+        log.info("根据主键集合查询score -> idArr={}",JSONUtils.toJSONString(idArr));
         return scoreMapper.findByIdArr(idArr);
     }
 
@@ -128,7 +126,7 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     @Transactional(readOnly = true)
     public int count(Score score) {
-        log.info("根据条件计数 -> score={}", JSON.toJSONString(score));
+        log.info("根据条件计数 -> score={}", JSONUtils.toJSONString(score));
         return scoreMapper.count(score);
     }
 

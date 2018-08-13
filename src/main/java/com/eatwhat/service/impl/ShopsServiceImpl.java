@@ -1,12 +1,10 @@
 package com.eatwhat.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.eatwhat.entity.enums.ErrorCode;
-import com.eatwhat.entity.exception.MyException;
-import com.eatwhat.entity.utils.PageInfo;
-import com.eatwhat.entity.utils.PageRequestParams;
+import com.alibaba.druid.support.json.JSONUtils;
 import com.eatwhat.dao.ShopsMapper;
 import com.eatwhat.entity.Shops;
+import com.eatwhat.entity.comment.ErrorCode;
+import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ShopsService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -38,11 +36,11 @@ public class ShopsServiceImpl implements ShopsService {
     @Override
     @Transactional
     public Shops saveShops(Shops shops){
-        log.info("添加shops -> shops={}",JSON.toJSONString(shops));
-        shops.setCreateTime(System.currentTimeMillis());
+        log.info("添加shops -> shops={}",JSONUtils.toJSONString(shops));
+//        shops.setCreateTime(System.currentTimeMillis());
         int saveResult = shopsMapper.saveShops(shops);
         if (saveResult < 1) {
-            throw new MyException(ErrorCode.SAVE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.SAVE_FAIL);
         }
         return findById(String.valueOf(shops.getId()));
     }
@@ -54,13 +52,13 @@ public class ShopsServiceImpl implements ShopsService {
     @Override
     @Transactional
     public Shops updateShops(Shops shops){
-        log.info("修改shops-> shops={}",JSON.toJSONString(shops));
+        log.info("修改shops-> shops={}",JSONUtils.toJSONString(shops));
         if(null == shops.getId()){
-            throw new MyException(ErrorCode.UPDATE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
         }
         int updateResult = shopsMapper.updateShops(shops);
         if (updateResult < 1) {
-            throw new MyException(ErrorCode.UPDATE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
         }
         return findById(String.valueOf(shops.getId()));
     }
@@ -74,11 +72,11 @@ public class ShopsServiceImpl implements ShopsService {
     public int deleteById(String recordId){
         log.info("删除shops -> recordId={}",recordId);
         if(StringUtils.isEmpty(recordId)){
-            throw new MyException(ErrorCode.DELETE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.DELETE_FAIL);
         }
         int delResult = shopsMapper.deleteById(recordId);
         if (delResult < 1) {
-            throw new MyException(ErrorCode.DELETE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.DELETE_FAIL);
         }
         return delResult;
     }
@@ -90,9 +88,9 @@ public class ShopsServiceImpl implements ShopsService {
     @Override
     @Transactional
     public int deleteByIdArr(Long[] idArr){
-        log.info("批量删除shops -> idArr={}",JSON.toJSONString(idArr));
+        log.info("批量删除shops -> idArr={}",JSONUtils.toJSONString(idArr));
         if(null == idArr || 0 == idArr.length){
-            throw new MyException(ErrorCode.REQUEST_ERROR);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.REQUEST_PARAMS_ERROR);
         }
         return shopsMapper.deleteByIdArr(idArr);
     }
@@ -115,30 +113,11 @@ public class ShopsServiceImpl implements ShopsService {
     @Override
     @Transactional(readOnly = true)
     public List<Shops> findByIdArr(Long[] idArr){
-        log.info("根据主键集合查询shops -> idArr={}",JSON.toJSONString(idArr));
+        log.info("根据主键集合查询shops -> idArr={}",JSONUtils.toJSONString(idArr));
         return shopsMapper.findByIdArr(idArr);
     }
 
-    /**
-     * @des 根据条件分页查询信息
-     * @param pageRequest
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public PageInfo findByParams(PageRequestParams<Shops> pageRequest) {
-        log.info("分页查询shops -> pageRequest={}",JSON.toJSONString(pageRequest));
-        Shops shops = pageRequest.getParams();
-        List<Shops> shopsList = shopsMapper.findByParams(shops, pageRequest);
-        int count = count(shops);
-
-        PageInfo pageInfo = new PageInfo();
-        pageInfo.setTotalElements(count);
-        pageInfo.setNumber(pageRequest.getPageIndex());
-        pageInfo.setSize(pageRequest.getPageSize());
-        pageInfo.setContent(shopsList);
-
-        return pageInfo;
-    }
+    
 
     /**
      * @des 根据条件统计信息
@@ -147,7 +126,7 @@ public class ShopsServiceImpl implements ShopsService {
     @Override
     @Transactional(readOnly = true)
     public int count(Shops shops) {
-        log.info("根据条件计数 -> shops={}", JSON.toJSONString(shops));
+        log.info("根据条件计数 -> shops={}", JSONUtils.toJSONString(shops));
         return shopsMapper.count(shops);
     }
 

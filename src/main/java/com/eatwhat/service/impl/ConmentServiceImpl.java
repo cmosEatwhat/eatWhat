@@ -1,12 +1,10 @@
 package com.eatwhat.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.eatwhat.entity.enums.ErrorCode;
-import com.eatwhat.entity.exception.MyException;
-import com.eatwhat.entity.utils.PageInfo;
-import com.eatwhat.entity.utils.PageRequestParams;
+import com.alibaba.druid.support.json.JSONUtils;
 import com.eatwhat.dao.ConmentMapper;
 import com.eatwhat.entity.Conment;
+import com.eatwhat.entity.comment.ErrorCode;
+import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ConmentService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -38,11 +36,10 @@ public class ConmentServiceImpl implements ConmentService {
     @Override
     @Transactional
     public Conment saveConment(Conment conment){
-        log.info("添加conment -> conment={}",JSON.toJSONString(conment));
-        conment.setCreateTime(System.currentTimeMillis());
+        log.info("添加conment -> conment={}",JSONUtils.toJSONString(conment));
         int saveResult = conmentMapper.saveConment(conment);
         if (saveResult < 1) {
-            throw new MyException(ErrorCode.SAVE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.SAVE_FAIL);
         }
         return findById(String.valueOf(conment.getId()));
     }
@@ -54,13 +51,13 @@ public class ConmentServiceImpl implements ConmentService {
     @Override
     @Transactional
     public Conment updateConment(Conment conment){
-        log.info("修改conment-> conment={}",JSON.toJSONString(conment));
+        log.info("修改conment-> conment={}",JSONUtils.toJSONString(conment));
         if(null == conment.getId()){
-            throw new MyException(ErrorCode.UPDATE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
         }
         int updateResult = conmentMapper.updateConment(conment);
         if (updateResult < 1) {
-            throw new MyException(ErrorCode.UPDATE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
         }
         return findById(String.valueOf(conment.getId()));
     }
@@ -74,11 +71,11 @@ public class ConmentServiceImpl implements ConmentService {
     public int deleteById(String recordId){
         log.info("删除conment -> recordId={}",recordId);
         if(StringUtils.isEmpty(recordId)){
-            throw new MyException(ErrorCode.DELETE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.DELETE_FAIL);
         }
         int delResult = conmentMapper.deleteById(recordId);
         if (delResult < 1) {
-            throw new MyException(ErrorCode.DELETE_FAIL);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.DELETE_FAIL);
         }
         return delResult;
     }
@@ -90,9 +87,9 @@ public class ConmentServiceImpl implements ConmentService {
     @Override
     @Transactional
     public int deleteByIdArr(Long[] idArr){
-        log.info("批量删除conment -> idArr={}",JSON.toJSONString(idArr));
+        log.info("批量删除conment -> idArr={}",JSONUtils.toJSONString(idArr));
         if(null == idArr || 0 == idArr.length){
-            throw new MyException(ErrorCode.REQUEST_ERROR);
+            ServerResponse.createDefaultErrorMessage(ErrorCode.REQUEST_PARAMS_ERROR);
         }
         return conmentMapper.deleteByIdArr(idArr);
     }
@@ -115,30 +112,11 @@ public class ConmentServiceImpl implements ConmentService {
     @Override
     @Transactional(readOnly = true)
     public List<Conment> findByIdArr(Long[] idArr){
-        log.info("根据主键集合查询conment -> idArr={}",JSON.toJSONString(idArr));
+        log.info("根据主键集合查询conment -> idArr={}",JSONUtils.toJSONString(idArr));
         return conmentMapper.findByIdArr(idArr);
     }
 
-    /**
-     * @des 根据条件分页查询信息
-     * @param pageRequest
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public PageInfo findByParams(PageRequestParams<Conment> pageRequest) {
-        log.info("分页查询conment -> pageRequest={}",JSON.toJSONString(pageRequest));
-        Conment conment = pageRequest.getParams();
-        List<Conment> conmentList = conmentMapper.findByParams(conment, pageRequest);
-        int count = count(conment);
 
-        PageInfo pageInfo = new PageInfo();
-        pageInfo.setTotalElements(count);
-        pageInfo.setNumber(pageRequest.getPageIndex());
-        pageInfo.setSize(pageRequest.getPageSize());
-        pageInfo.setContent(conmentList);
-
-        return pageInfo;
-    }
 
     /**
      * @des 根据条件统计信息
@@ -147,7 +125,7 @@ public class ConmentServiceImpl implements ConmentService {
     @Override
     @Transactional(readOnly = true)
     public int count(Conment conment) {
-        log.info("根据条件计数 -> conment={}", JSON.toJSONString(conment));
+        log.info("根据条件计数 -> conment={}", JSONUtils.toJSONString(conment));
         return conmentMapper.count(conment);
     }
 

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.eatwhat.dao.ScoreMapper">
-    <resultMap id="BaseResultMap" type="com.lanqi.common.entity.Score">
+    <resultMap id="BaseResultMap" type="com.eatwhat.entity.Score">
         <result column="id" property="id" jdbcType="BIGINT"/>
         <result column="score_context" property="context" jdbcType="DOUBLE"/>
         <result column="food_id" property="foodId" jdbcType="BIGINT"/>
-        <result column="create_time" property="createTime" jdbcType="DATETIME"/>
-        <result column="update_time" property="updateTime" jdbcType="DATETIME"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -86,7 +86,7 @@
 
 
     <!--添加-->
-    <insert id="saveScore" parameterType="com.lanqi.common.entity.Score" useGeneratedKeys="true"
+    <insert id="saveScore" parameterType="com.eatwhat.entity.Score" useGeneratedKeys="true"
             keyProperty="id">
         insert into score
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -121,7 +121,7 @@
 
 
     <!--修改-->
-    <update id="updateScore" parameterType="com.lanqi.common.entity.Score">
+    <update id="updateScore" parameterType="com.eatwhat.entity.Score">
         update score
         <set>
             <if test="context != null">
