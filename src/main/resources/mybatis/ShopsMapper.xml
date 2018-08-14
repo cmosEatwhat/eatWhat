@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.eatwhat.entity.Shops">
         <result column="id" property="id" jdbcType="BIGINT"/>
         <result column="shops_name" property="name" jdbcType="VARCHAR"/>
+        <result column="shops_address" property="name" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -11,6 +12,7 @@
     <sql id="Base_Column_List">
         id,
         shops_name,
+        shops_address,
         create_time,
         update_time
     </sql>
@@ -91,6 +93,9 @@
             <if test="name != null and name !=''">
                 shops_name,
             </if>
+            <if test="address != null and address !=''">
+                shops_address,
+            </if>
             <if test="createTime != null">
                 create_time,
             </if>
@@ -101,6 +106,9 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null and name !=''">
                 #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null and address !=''">
+                #{address,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=DATETIME},

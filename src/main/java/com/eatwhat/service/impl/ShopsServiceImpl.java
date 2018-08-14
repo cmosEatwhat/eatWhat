@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,7 +38,6 @@ public class ShopsServiceImpl implements ShopsService {
     @Transactional
     public Shops saveShops(Shops shops){
         log.info("添加shops -> shops={}",JSONUtils.toJSONString(shops));
-//        shops.setCreateTime(System.currentTimeMillis());
         int saveResult = shopsMapper.saveShops(shops);
         if (saveResult < 1) {
             ServerResponse.createDefaultErrorMessage(ErrorCode.SAVE_FAIL);

@@ -27,7 +27,7 @@ public class ShopsController {
 
     /**
      * @param shops
-     * @des 创建
+     * @des 注册店铺
      */
     @RequestMapping("/save")
     @ResponseBody

@@ -30,6 +30,12 @@ public class Shops implements Serializable {
     private String name;
 
 
+    /**
+     *店铺地址
+     */
+    @Column(name = "shops_address")
+    private String address;
+
 
     /**
      *创建时间
@@ -77,7 +83,11 @@ public class Shops implements Serializable {
         this.name = name;
     }
 
+    public String getAddress() {
+        return address;
+    }
 
-
-
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

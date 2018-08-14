@@ -27,7 +27,7 @@ public class SellerController {
 
     /**
      * @param seller
-     * @des 创建
+     * @des 注册商家
      */
     @RequestMapping("/save")
     @ResponseBody
