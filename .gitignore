@@ -56,7 +56,7 @@ local.properties
 .idea
 .idea/*
 */target/
-
+/target/
 ## File-based project format:
 *.iws
 
