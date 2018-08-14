@@ -159,4 +159,12 @@
         </foreach>
     </delete>
 
+
+    <select id="getConmentListByfoodId" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM conment
+        WHERE food_id = #{foodId}
+    </select>
+
 </mapper>

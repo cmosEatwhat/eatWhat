@@ -1,13 +1,16 @@
 package com.eatwhat.controller;
 
 import com.eatwhat.entity.Conment;
+import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ConmentService;
+import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
+import javax.validation.Valid;
 
 /**
  * 描述：控制层
@@ -24,6 +27,24 @@ public class ConmentController {
 
     @Resource
     private ConmentService conmentService;
+
+
+
+    /**
+     * @param foodId
+     * @des 查商品评论
+     */
+    @ApiOperation("查商品评论")
+    @RequestMapping(value = "/byFood",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<PageInfo<Conment>> save(String foodId,@Valid PageModel pageModel) {
+
+        PageInfo<Conment> conmentPageInfo =  conmentService.getConmentListByfoodId(foodId,pageModel);
+
+        return ServerResponse.createBySuccess(conmentPageInfo);
+    }
+
+
 
     /**
      * @param conment
@@ -73,16 +94,6 @@ public class ConmentController {
     @ResponseBody
     public ServerResponse findConmentById( @PathVariable String id)  {
         return new ServerResponse<Conment>().createBySuccess(conmentService.findById(id));
-    }
-
-    /**
-     * @des 根据id集合查询
-     * @param recordIdArr
-     */
-    @RequestMapping(value = "/find/list",method = RequestMethod.GET)
-    @ResponseBody
-    public ServerResponse findConmentByIdList(@RequestParam("recordIdArr") Long[] recordIdArr)  {
-        return new ServerResponse<List<Conment>>().createBySuccess(conmentService.findByIdArr(recordIdArr));
     }
 
 

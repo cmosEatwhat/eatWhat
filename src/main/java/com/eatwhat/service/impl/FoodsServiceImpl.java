@@ -4,6 +4,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.eatwhat.dao.FoodsMapper;
 import com.eatwhat.entity.Foods;
 import com.eatwhat.entity.comment.ErrorCode;
+import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.entity.food.FoodsVo;
 import com.eatwhat.service.FoodsService;
@@ -45,7 +46,7 @@ public class FoodsServiceImpl implements FoodsService {
         if (saveResult < 1) {
             ServerResponse.createDefaultErrorMessage(ErrorCode.SAVE_FAIL);
         }
-        return findById(String.valueOf(foods.getId()));
+        return findFoodById(String.valueOf(foods.getId()));
     }
 
     /**
@@ -63,7 +64,11 @@ public class FoodsServiceImpl implements FoodsService {
         if (updateResult < 1) {
             ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
         }
-        return findById(String.valueOf(foods.getId()));
+        return findFoodById(String.valueOf(foods.getId()));
+    }
+
+    private Foods findFoodById(String s) {
+        return foodsMapper.findById(s);
     }
 
     /**
@@ -100,13 +105,16 @@ public class FoodsServiceImpl implements FoodsService {
 
     /**
      * @param recordId
-     * @des 根据id 查询信息
+     * @des 查看菜品详情
      */
     @Override
     @Transactional
     public Foods findById(String recordId) {
         log.info("根据主键查询foods -> recordId={}", recordId);
-        return StringUtils.isEmpty(recordId) ? null : foodsMapper.findById(recordId);
+
+        Foods food = foodsMapper.findById(recordId);
+
+        return food;
     }
 
     /**
@@ -136,11 +144,12 @@ public class FoodsServiceImpl implements FoodsService {
     /*
      *店铺查菜品
      */
-    public PageInfo<FoodsVo> findByShopsId(String shopsId,int pageNum, int pageSize ) {
+    public PageInfo<FoodsVo> findByShopsId(String shopsId, PageModel pageModel) {
 
         log.info("enter method findByShopsId shopsId{}" + shopsId);
         //设置分页
-        PageHelper.startPage(pageNum, pageSize);
+        PageHelper.startPage(pageModel);
+
         List<FoodsVo> foodsList = foodsMapper.findByShopsId(shopsId);
 //取分页信息
         PageInfo<FoodsVo> pageInfo = new PageInfo<>(foodsList);

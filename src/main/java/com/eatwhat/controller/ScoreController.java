@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 描述：控制层
@@ -75,14 +74,6 @@ public class ScoreController {
         return new ServerResponse<Score>().createBySuccess(scoreService.findById(recordId));
     }
 
-    /**
-     * @des 根据id集合查询
-     * @param recordIdArr
-     */
-    @RequestMapping(value = "/find/list")
-    @ResponseBody
-    public ServerResponse findScoreByIdList(@RequestParam("recordIdArr") Long[] recordIdArr)  {
-        return new ServerResponse<List<Score>>().createBySuccess(scoreService.findByIdArr(recordIdArr));
-    }
+    
 
 }

@@ -1,6 +1,8 @@
 package com.eatwhat.service;
 
 import com.eatwhat.entity.Conment;
+import com.eatwhat.entity.comment.PageModel;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -53,5 +55,11 @@ public interface ConmentService {
     * @param conment
     */
     int count(Conment conment);
+
+    /**
+     * @des 查单个商品所有评论
+     * @param foodId
+     */
+    PageInfo<Conment> getConmentListByfoodId(String foodId,PageModel pageModel);
 
 }

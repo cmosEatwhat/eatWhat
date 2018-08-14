@@ -1,6 +1,7 @@
 package com.eatwhat.service;
 
 import com.eatwhat.entity.Foods;
+import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.food.FoodsVo;
 import com.github.pagehelper.PageInfo;
 
@@ -39,8 +40,8 @@ public interface FoodsService {
 
     /**
     * @des 根据Id获取
-    * @param recordId
-    */
+     * @param recordId
+     */
     Foods findById(String recordId);
 
     /**
@@ -56,5 +57,5 @@ public interface FoodsService {
     */
     int count(Foods foods);
 
-    PageInfo<FoodsVo> findByShopsId(String shopsId,int pageNum, int pageSize);
+    PageInfo<FoodsVo> findByShopsId(String shopsId,PageModel pageModel);
 }

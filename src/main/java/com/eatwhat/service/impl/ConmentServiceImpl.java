@@ -4,8 +4,11 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.eatwhat.dao.ConmentMapper;
 import com.eatwhat.entity.Conment;
 import com.eatwhat.entity.comment.ErrorCode;
+import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ConmentService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,6 +121,8 @@ public class ConmentServiceImpl implements ConmentService {
 
 
 
+
+
     /**
      * @des 根据条件统计信息
      * @param conment
@@ -129,4 +134,17 @@ public class ConmentServiceImpl implements ConmentService {
         return conmentMapper.count(conment);
     }
 
+
+    @Override
+    public PageInfo<Conment> getConmentListByfoodId(String foodId,PageModel pageModel) {
+
+        PageHelper.startPage(pageModel);
+
+        List<Conment> conmentList = conmentMapper.getConmentListByfoodId(foodId);
+//取分页信息
+        PageInfo<Conment> pageInfo = new PageInfo<>(conmentList);
+        //设o = new PageInfo<>(foodsList);
+
+        return pageInfo;
+    }
 }

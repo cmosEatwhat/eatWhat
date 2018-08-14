@@ -53,8 +53,9 @@ public interface ConmentMapper {
 
     /**
     * @des 根据条件计数
-    * @param pageRequest
+    * @param conment
     */
     int count(Conment conment);
 
+    List<Conment> getConmentListByfoodId(@Param("foodId") String foodId);
 }
