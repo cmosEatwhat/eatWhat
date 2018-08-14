@@ -53,7 +53,7 @@ public interface FoodsMapper {
 
     /**
     * @des 根据条件计数
-    * @param pageRequest
+    * @param foods
     */
     int count(Foods foods);
 

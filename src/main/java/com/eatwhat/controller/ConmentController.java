@@ -67,12 +67,12 @@ public class ConmentController {
 
     /**
      * @des 根据id查询
-     * @param recordId
+     * @param id
      */
-    @RequestMapping(value = "/find.do",method = RequestMethod.GET)
+    @RequestMapping(value = "/find/{id}",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse findConmentById( String recordId)  {
-        return new ServerResponse<Conment>().createBySuccess(conmentService.findById(recordId));
+    public ServerResponse findConmentById( @PathVariable String id)  {
+        return new ServerResponse<Conment>().createBySuccess(conmentService.findById(id));
     }
 
     /**

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eatwhat.dao.ConmentMapper">
+    <resultMap id="BaseResultMap" type="com.eatwhat.entity.Conment">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="conment_context" property="conmentContext" jdbcType="VARCHAR"/>
+        <result column="food_id" property="foodId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        conment_context,
+        food_id,
+        create_time,
+        update_time
+    </sql>
+
+    <!--根据id查询-->
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from conment
+        where id = #{recordId}
+    </select>
+
+
+    <!--根据id集合查询-->
+    <select id="findByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from conment
+        <if test="conment !=null">
+            <where>
+                <if test="conment.id != null">AND id = #{conment.id}</if>
+                <if test="conment.conment_context != null and conment.conment_context !='' ">AND conment-context like CONCAT('%',#{conment.conment-context},'%')</if>
+                <if test="conment.foodId != null">AND food_id = #{conment.foodId}</if>
+                <if test="conment.createTime != null">AND create_time = #{conment.createTime}</if>
+                <if test="conment.updateTime != null">AND update_time = #{conment.updateTime}</if>
+            </where>
+        </if>
+        <if test="pageRequest != null">
+            <choose>
+                <when test="pageRequest.sortList != null">
+                    <foreach collection="pageRequest.sortList" open="order by" item="sort" separator=",">
+                    ${sort.jdbcField} ${sort.sortType}
+                    </foreach>
+                </when>
+                <otherwise>
+                    order by id desc
+                </otherwise>
+            </choose>
+            <if test="pageRequest.offset != null and pageRequest.pageSize != null">
+                limit #{pageRequest.offset}, #{pageRequest.pageSize}
+            </if>
+        </if>
+    </select>
+
+
+    <!--根据参数分页查询-->
+    <select id="findByIdArr" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM conment
+        WHERE id IN
+        <foreach collection="idArr" open="(" close=")" item="recordId" separator=",">
+            #{recordId}
+        </foreach>
+    </select>
+
+
+    <!--根据条件计数-->
+    <select id="count" resultType="int">
+        SELECT
+        COUNT(id)
+        FROM conment
+            <where>
+                <if test="id != null">AND id = #{id}</if>
+                <if test="conment-context != null and conment-context !='' ">
+                    AND conment-context like CONCAT('%',#{conment-context},'%')
+                </if>
+                <if test="foodId != null">AND food_id = #{foodId}</if>
+                <if test="createTime != null">AND create_time = #{createTime}</if>
+                <if test="updateTime != null">AND update_time = #{updateTime}</if>
+            </where>
+    </select>
+
+
+    <!--添加-->
+    <insert id="saveConment" parameterType="com.eatwhat.entity.Conment" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into conment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="conment-context != null and conment-context !=''">
+                conment-context,
+            </if>
+            <if test="foodId != null">
+                food_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="conment-context != null and conment-context !=''">
+                #{conment-context,jdbcType=VARCHAR},
+            </if>
+            <if test="foodId != null">
+                #{foodId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATETIME},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=DATETIME},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--修改-->
+    <update id="updateConment" parameterType="com.eatwhat.entity.Conment">
+        update conment
+        <set>
+            <if test="conment-context != null and conment-context !=''">
+                conment-context = #{conment-context,jdbcType=VARCHAR},
+            </if>
+            <if test="foodId != null">
+                food_id = #{foodId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATETIME},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=DATETIME},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!--根据id删除-->
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE FROM conment
+        WHERE id = #{recordId}
+    </delete>
+
+
+    <!--根据id集合删除-->
+    <delete id="deleteByIdArr">
+        DELETE FROM conment
+        WHERE id IN
+        <foreach collection="idArr" open="(" close=")" item="recordId" separator=",">
+            #{recordId}
+        </foreach>
+    </delete>
+
+</mapper>

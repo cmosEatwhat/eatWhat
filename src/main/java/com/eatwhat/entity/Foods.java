@@ -42,6 +42,20 @@ public class Foods implements Serializable {
     @Column(name = "foods_image")
     private String image;
 
+
+
+    /**
+     *分类Id
+     */
+    @Column(name = "categoryId")
+    private Long categoryId;
+
+    /**
+     *店铺Id
+     */
+    @Column(name = "shopsId")
+    private Long shopsId;
+
     /**
      *创建时间
      */
@@ -103,6 +117,19 @@ public class Foods implements Serializable {
     }
 
 
+    public Long getCategoryId() {
+        return categoryId;
+    }
 
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
+    public Long getShopsId() {
+        return shopsId;
+    }
+
+    public void setShopsId(Long shopsId) {
+        this.shopsId = shopsId;
+    }
 }

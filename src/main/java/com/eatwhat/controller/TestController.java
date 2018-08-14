@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class TestController {
     @ResponseBody
-    @RequestMapping("/login/index.do")
+    @RequestMapping("/login/index")
     public String test(){
         System.out.println("test");
         return "test";
