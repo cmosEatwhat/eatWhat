@@ -1,6 +1,7 @@
 package com.eatwhat.dao;
 
 import com.eatwhat.entity.Foods;
+import com.eatwhat.entity.food.FoodsVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -48,7 +49,7 @@ public interface FoodsMapper {
     * @des 根据id 集合查询信息
     * @param idArr
     */
-    List<Foods> findByIdArr(@Param("idArr") Long[] idArr);
+    List<FoodsVo> findByIdArr(@Param("idArr") Long[] idArr);
 
 
     /**
@@ -57,4 +58,5 @@ public interface FoodsMapper {
     */
     int count(Foods foods);
 
+    List<FoodsVo> findByShopsId(@Param("shopsId") String shopsId);
 }

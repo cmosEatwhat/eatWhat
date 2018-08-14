@@ -5,11 +5,16 @@
         <result column="id" property="id" jdbcType="BIGINT"/>
         <result column="foods_name" property="name" jdbcType="VARCHAR"/>
         <result column="foods_price" property="price" jdbcType="DECIMAL"/>
-        <result column="foods_score" property="score" jdbcType="DOUBLE"/>
         <result column="foods_image" property="image" jdbcType="VARCHAR"/>
         <result column="category_id" property="categoryId" jdbcType="BIGINT"/>
         <result column="shops_id" property="shopsId" jdbcType="BIGINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="FoodsVoMap" type="com.eatwhat.entity.food.FoodsVo">
+        <result column="foods_name" property="name" jdbcType="VARCHAR"/>
+        <result column="foods_price" property="price" jdbcType="DECIMAL"/>
+        <result column="foods_image" property="image" jdbcType="VARCHAR"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
@@ -17,11 +22,16 @@
         id,
         foods_name,
         foods_price,
-        foods_score,
         foods_image,
         category_id,
         shops_id,
         create_time,
+        update_time
+    </sql>
+    <sql id="Vo_Column_List">
+        foods_name,
+        foods_price,
+        foods_image,
         update_time
     </sql>
 
@@ -209,5 +219,17 @@
             #{recordId}
         </foreach>
     </delete>
+
+
+
+    <select id="findByShopsId" parameterType="java.lang.String" resultMap="FoodsVoMap">
+       select  foods_name,
+        foods_price,
+        foods_image,
+        update_time
+        from foods where shops_id = #{shopsId}
+    </select>
+
+
 
 </mapper>

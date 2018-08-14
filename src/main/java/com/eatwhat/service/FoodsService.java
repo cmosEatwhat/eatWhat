@@ -1,6 +1,7 @@
 package com.eatwhat.service;
 
 import com.eatwhat.entity.Foods;
+import com.eatwhat.entity.food.FoodsVo;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public interface FoodsService {
     * @des 根据id 集合查询信息
     * @param idArr
     */
-    List<Foods> findByIdArr(Long[] idArr);
+    List<FoodsVo> findByIdArr(Long[] idArr);
 
 
     /**
@@ -54,4 +55,5 @@ public interface FoodsService {
     */
     int count(Foods foods);
 
+    List<FoodsVo> findByShopsId(String shopsId);
 }

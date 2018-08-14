@@ -36,6 +36,7 @@ public class Foods implements Serializable {
     @Column(name = "foods_price")
     private BigDecimal price;
 
+
     /**
      *食品图片
      */
