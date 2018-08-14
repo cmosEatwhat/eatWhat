@@ -4,6 +4,7 @@ import com.eatwhat.entity.Foods;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.entity.food.FoodsVo;
 import com.eatwhat.service.FoodsService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -40,11 +41,11 @@ public class FoodsController {
     @ApiOperation(value = "查店铺所有菜品")
     @RequestMapping(value = "/list/{shopsId}",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse findFoodsList(@PathVariable String shopsId)  {
+    public ServerResponse findFoodsList(@PathVariable String shopsId,int pageNum, int pageSize)  {
 
         logger.info("enter method findFoodsList :");
 
-        List<FoodsVo> foodsList = foodsService.findByShopsId(shopsId);
+        PageInfo<FoodsVo> foodsList = foodsService.findByShopsId(shopsId,pageNum,pageSize);
 
 
 

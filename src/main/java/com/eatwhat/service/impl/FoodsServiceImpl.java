@@ -7,6 +7,8 @@ import com.eatwhat.entity.comment.ErrorCode;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.entity.food.FoodsVo;
 import com.eatwhat.service.FoodsService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,13 +33,13 @@ public class FoodsServiceImpl implements FoodsService {
     private static final Logger log = LoggerFactory.getLogger(FoodsService.class);
 
     /**
-     * @des 添加 Foods
      * @param foods
+     * @des 添加 Foods
      */
     @Override
     @Transactional
-    public Foods saveFoods(Foods foods){
-        log.info("添加foods -> foods={}",JSONUtils.toJSONString(foods));
+    public Foods saveFoods(Foods foods) {
+        log.info("添加foods -> foods={}", JSONUtils.toJSONString(foods));
 //        foods.setCreateTime(System.currentTimeMillis());
         int saveResult = foodsMapper.saveFoods(foods);
         if (saveResult < 1) {
@@ -47,14 +49,14 @@ public class FoodsServiceImpl implements FoodsService {
     }
 
     /**
-     * @des 修改 Foods
      * @param foods
+     * @des 修改 Foods
      */
     @Override
     @Transactional
-    public Foods updateFoods(Foods foods){
-        log.info("修改foods-> foods={}",JSONUtils.toJSONString(foods));
-        if(null == foods.getId()){
+    public Foods updateFoods(Foods foods) {
+        log.info("修改foods-> foods={}", JSONUtils.toJSONString(foods));
+        if (null == foods.getId()) {
             ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
         }
         int updateResult = foodsMapper.updateFoods(foods);
@@ -65,14 +67,14 @@ public class FoodsServiceImpl implements FoodsService {
     }
 
     /**
-     * @des 根据主键删除信息
      * @param recordId
+     * @des 根据主键删除信息
      */
     @Override
     @Transactional
-    public int deleteById(String recordId){
-        log.info("删除foods -> recordId={}",recordId);
-        if(StringUtils.isEmpty(recordId)){
+    public int deleteById(String recordId) {
+        log.info("删除foods -> recordId={}", recordId);
+        if (StringUtils.isEmpty(recordId)) {
             ServerResponse.createDefaultErrorMessage(ErrorCode.DELETE_FAIL);
         }
         int delResult = foodsMapper.deleteById(recordId);
@@ -83,45 +85,45 @@ public class FoodsServiceImpl implements FoodsService {
     }
 
     /**
-     * @des 根据主键集合删除信息
      * @param idArr
+     * @des 根据主键集合删除信息
      */
     @Override
     @Transactional
-    public int deleteByIdArr(Long[] idArr){
-        log.info("批量删除foods -> idArr={}",JSONUtils.toJSONString(idArr));
-        if(null == idArr || 0 == idArr.length){
+    public int deleteByIdArr(Long[] idArr) {
+        log.info("批量删除foods -> idArr={}", JSONUtils.toJSONString(idArr));
+        if (null == idArr || 0 == idArr.length) {
             ServerResponse.createDefaultErrorMessage(ErrorCode.REQUEST_PARAMS_ERROR);
         }
         return foodsMapper.deleteByIdArr(idArr);
     }
 
     /**
-     * @des 根据id 查询信息
      * @param recordId
+     * @des 根据id 查询信息
      */
     @Override
     @Transactional
-    public Foods findById(String recordId){
-        log.info("根据主键查询foods -> recordId={}",recordId);
-        return StringUtils.isEmpty(recordId ) ? null : foodsMapper.findById(recordId) ;
+    public Foods findById(String recordId) {
+        log.info("根据主键查询foods -> recordId={}", recordId);
+        return StringUtils.isEmpty(recordId) ? null : foodsMapper.findById(recordId);
     }
 
     /**
-     * @des 根据id 集合查询信息
      * @param idArr id集合
+     * @des 根据id 集合查询信息
      */
     @Override
     @Transactional(readOnly = true)
-    public List<FoodsVo> findByIdArr(Long[] idArr){
-        log.info("根据主键集合查询foods -> idArr={}",JSONUtils.toJSONString(idArr));
+    public List<FoodsVo> findByIdArr(Long[] idArr) {
+        log.info("根据主键集合查询foods -> idArr={}", JSONUtils.toJSONString(idArr));
         return foodsMapper.findByIdArr(idArr);
     }
 
 
     /**
-     * @des 根据条件统计信息
      * @param foods
+     * @des 根据条件统计信息
      */
     @Override
     @Transactional(readOnly = true)
@@ -134,15 +136,17 @@ public class FoodsServiceImpl implements FoodsService {
     /*
      *店铺查菜品
      */
-    public  List<FoodsVo> findByShopsId(String shopsId){
+    public PageInfo<FoodsVo> findByShopsId(String shopsId,int pageNum, int pageSize ) {
 
-        log.info("enter method findByShopsId shopsId{}"+shopsId);
-
+        log.info("enter method findByShopsId shopsId{}" + shopsId);
+        //设置分页
+        PageHelper.startPage(pageNum, pageSize);
         List<FoodsVo> foodsList = foodsMapper.findByShopsId(shopsId);
+//取分页信息
+        PageInfo<FoodsVo> pageInfo = new PageInfo<>(foodsList);
 
-        return foodsList;
+        return pageInfo;
     }
-
 
 
 }

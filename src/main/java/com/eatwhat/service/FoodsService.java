@@ -2,6 +2,7 @@ package com.eatwhat.service;
 
 import com.eatwhat.entity.Foods;
 import com.eatwhat.entity.food.FoodsVo;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -55,5 +56,5 @@ public interface FoodsService {
     */
     int count(Foods foods);
 
-    List<FoodsVo> findByShopsId(String shopsId);
+    PageInfo<FoodsVo> findByShopsId(String shopsId,int pageNum, int pageSize);
 }

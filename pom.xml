@@ -216,7 +216,23 @@
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.3.2</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+
+	  <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+	  <dependency>
+		  <groupId>javax.validation</groupId>
+		  <artifactId>validation-api</artifactId>
+		  <version>1.0.0.GA</version>
+	  </dependency>
+
+
+	  <!-- pagehelper分页插件 -->
+	  <dependency>
+		  <groupId>com.github.pagehelper</groupId>
+		  <artifactId>pagehelper</artifactId>
+		  <version>5.0.0</version>
+	  </dependency>
+
+	  <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 		<dependency>
 		    <groupId>commons-logging</groupId>
 		    <artifactId>commons-logging</artifactId>
