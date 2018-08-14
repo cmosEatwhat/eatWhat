@@ -28,6 +28,10 @@
     <servlet-name>springMVC</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>springMVC</servlet-name>
+    <url-pattern>/v2/api-docs</url-pattern>
+  </servlet-mapping>
   
    <!--&lt;!&ndash; 初始化定时器 &ndash;&gt;-->
   <!--<listener>  -->

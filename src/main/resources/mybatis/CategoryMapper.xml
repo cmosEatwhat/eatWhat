@@ -115,7 +115,7 @@
     <!--修改-->
     <update id="updateCategory" parameterType="com.eatwhat.entity.Category">
         update category
-        <set>
+        <set>/
             <if test="shopsName != null and shopsName !=''">
                 shops_name = #{shopsName,jdbcType=VARCHAR},
             </if>
