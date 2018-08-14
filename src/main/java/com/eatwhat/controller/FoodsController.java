@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * 描述：控制层
@@ -100,14 +99,6 @@ public class FoodsController {
         return new ServerResponse<Foods>().createBySuccess(foodsService.findById(id));
     }
 
-    /**
-     * @param recordIdArr
-     * @des 根据id集合查询
-     */
-    @RequestMapping(value = "/find/list", method = RequestMethod.GET)
-    @ResponseBody
-    public ServerResponse findFoodsByIdList(@RequestParam("recordIdArr") Long[] recordIdArr) {
-        return new ServerResponse<List<FoodsVo>>().createBySuccess(foodsService.findByIdArr(recordIdArr));
-    }
+
 
 }

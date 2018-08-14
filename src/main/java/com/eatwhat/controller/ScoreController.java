@@ -35,45 +35,18 @@ public class ScoreController {
     }
 
     /**
-     * @des 根据id删除
-     * @param recordId id
-     */
-    @RequestMapping(value = "/del")
-    @ResponseBody
-    public ServerResponse deleteById(@RequestParam("recordId") String recordId) {
-        return new ServerResponse<Integer>().createBySuccess(scoreService.deleteById(recordId));
-    }
-
-    /**
-     * @des 根据id集合删除
-     * @param recordIdArr id
-     */
-    @RequestMapping(value = "/del/list")
-    @ResponseBody
-    public ServerResponse deleteById(@RequestParam("recordIdArr") Long[] recordIdArr) {
-        return new ServerResponse<Integer>().createBySuccess(scoreService.deleteByIdArr(recordIdArr));
-    }
-
-    /**
-     * @des 修改
-     * @param score
-     */
-    @RequestMapping(value = "/update")
-    @ResponseBody
-    public ServerResponse updateScore(@RequestBody Score score) {
-        return new ServerResponse<Score>().createBySuccess(scoreService.updateScore(score));
-    }
-
-    /**
      * @des 根据id查询
      * @param recordId
      */
-    @RequestMapping(value = "/find")
+    @RequestMapping(value = "/findBy")
     @ResponseBody
     public ServerResponse findScoreById(@RequestParam("recordId") String recordId)  {
         return new ServerResponse<Score>().createBySuccess(scoreService.findById(recordId));
     }
 
-    
+
+
+
+
 
 }

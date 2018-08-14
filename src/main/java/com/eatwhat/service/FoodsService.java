@@ -56,6 +56,6 @@ public interface FoodsService {
     * @param foods
     */
     int count(Foods foods);
-
-    PageInfo<FoodsVo> findByShopsId(String shopsId,PageModel pageModel);
+    public PageInfo<FoodsVo> findByShopsId(String shopsId, PageModel pageModel);
+//    List<FoodsVo> findByShopsId(String shopsId, PageModel pageModel);
 }

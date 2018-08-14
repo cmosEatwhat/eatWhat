@@ -53,8 +53,9 @@ public interface ScoreMapper {
 
     /**
     * @des 根据条件计数
-    * @param pageRequest
+    * @param
     */
     int count(Score score);
 
+    List<Long> getFoodIdsByShopId(@Param("shopId") String shopId);
 }

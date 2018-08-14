@@ -8,6 +8,7 @@ import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.entity.food.FoodsVo;
 import com.eatwhat.service.FoodsService;
+import com.eatwhat.service.ScoreService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +32,9 @@ public class FoodsServiceImpl implements FoodsService {
 
     @Resource
     private FoodsMapper foodsMapper;
+
+    @Resource
+    private ScoreService scoreService;
 
     private static final Logger log = LoggerFactory.getLogger(FoodsService.class);
 
@@ -139,8 +144,6 @@ public class FoodsServiceImpl implements FoodsService {
         log.info("根据条件计数 -> foods={}", JSONUtils.toJSONString(foods));
         return foodsMapper.count(foods);
     }
-
-
     /*
      *店铺查菜品
      */
@@ -156,6 +159,28 @@ public class FoodsServiceImpl implements FoodsService {
 
         return pageInfo;
     }
+//
+//    /*
+//     *店铺查菜品
+//     */
+//    public List<FoodsVo> findByShopsId(final String shopsId, PageModel pageModel) {
+//
+//        log.info("enter method findByShopsId shopsId{}" + shopsId);
+//
+//        List<Long> foodIdList = scoreService.getFoodIdsByShopId(shopsId,pageModel);
+//
+//        List<Foods> foodsList = new ArrayList<>(10);
+////        foodIdList.forEach( id ->{
+////                Foods food = new Foods();
+////                food = findById(id.toString());
+////                foodsList.add(food);
+////        });
+//
+//
+//        //取分页信息
+//
+//        return null;
+//    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.eatwhat.service;
 
 import com.eatwhat.entity.Score;
+import com.eatwhat.entity.comment.PageModel;
 
 import java.util.List;
 
@@ -10,6 +11,11 @@ import java.util.List;
 * @date 2018/08/13
 */
 public interface ScoreService {
+    /**
+     * @des 评分获取菜品
+     * @param shopId
+     */
+    List<Long> getFoodIdsByShopId (String shopId, PageModel pageModel);
 
     /**
     * @des 添加Score
