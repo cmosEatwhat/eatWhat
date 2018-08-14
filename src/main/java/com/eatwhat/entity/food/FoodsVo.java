@@ -42,11 +42,7 @@ public class FoodsVo implements Serializable {
     @Column(name = "foods_price")
     private BigDecimal price;
 
-    /**
-     * 食品评分
-     */
-    @Column(name = "score")
-    private Double score;
+
     /**
      * 食品图片
      */
@@ -60,15 +56,6 @@ public class FoodsVo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss ")
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date updateTime;
-
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        this.score = score;
-    }
-
     public Date getUpdateTime() {
         return updateTime;
     }

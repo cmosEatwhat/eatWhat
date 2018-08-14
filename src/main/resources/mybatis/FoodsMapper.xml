@@ -29,6 +29,7 @@
         update_time
     </sql>
     <sql id="Vo_Column_List">
+        id,
         foods_name,
         foods_price,
         foods_image,
@@ -220,13 +221,11 @@
         </foreach>
     </delete>
 
-
+    <!--查单个店铺所有-->
 
     <select id="findByShopsId" parameterType="java.lang.String" resultMap="FoodsVoMap">
-       select  foods_name,
-        foods_price,
-        foods_image,
-        update_time
+       select
+        <include refid="Vo_Column_List"/>
         from foods where shops_id = #{shopsId}
     </select>
 
