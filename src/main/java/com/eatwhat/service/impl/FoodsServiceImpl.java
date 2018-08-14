@@ -5,6 +5,7 @@ import com.eatwhat.dao.FoodsMapper;
 import com.eatwhat.entity.Foods;
 import com.eatwhat.entity.comment.ErrorCode;
 import com.eatwhat.entity.comment.ServerResponse;
+import com.eatwhat.entity.food.FoodsVo;
 import com.eatwhat.service.FoodsService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -112,7 +113,7 @@ public class FoodsServiceImpl implements FoodsService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Foods> findByIdArr(Long[] idArr){
+    public List<FoodsVo> findByIdArr(Long[] idArr){
         log.info("根据主键集合查询foods -> idArr={}",JSONUtils.toJSONString(idArr));
         return foodsMapper.findByIdArr(idArr);
     }
@@ -128,5 +129,20 @@ public class FoodsServiceImpl implements FoodsService {
         log.info("根据条件计数 -> foods={}", JSONUtils.toJSONString(foods));
         return foodsMapper.count(foods);
     }
+
+
+    /*
+     *店铺查菜品
+     */
+    public  List<FoodsVo> findByShopsId(String shopsId){
+
+        log.info("enter method findByShopsId shopsId{}"+shopsId);
+
+        List<FoodsVo> foodsList = foodsMapper.findByShopsId(shopsId);
+
+        return foodsList;
+    }
+
+
 
 }

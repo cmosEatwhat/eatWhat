@@ -2,8 +2,10 @@ package com.eatwhat.controller;
 
 import com.eatwhat.entity.Foods;
 import com.eatwhat.entity.comment.ServerResponse;
+import com.eatwhat.entity.food.FoodsVo;
 import com.eatwhat.service.FoodsService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -35,11 +37,19 @@ public class FoodsController {
      *
      */
 
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    @ApiOperation(value = "查店铺所有菜品")
+    @RequestMapping(value = "/list/{shopsId}",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse findFoodsList()  {
+    public ServerResponse findFoodsList(@PathVariable String shopsId)  {
+
         logger.info("enter method findFoodsList :");
-        return new ServerResponse<Foods>().createBySuccess("zxa");
+
+        List<FoodsVo> foodsList = foodsService.findByShopsId(shopsId);
+
+
+
+
+        return new ServerResponse<Foods>().createBySuccess(foodsList);
     }
 
     /**
@@ -99,7 +109,7 @@ public class FoodsController {
     @RequestMapping(value = "/find/list",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse findFoodsByIdList(@RequestParam("recordIdArr") Long[] recordIdArr)  {
-        return new ServerResponse<List<Foods>>().createBySuccess(foodsService.findByIdArr(recordIdArr));
+        return new ServerResponse<List<FoodsVo>>().createBySuccess(foodsService.findByIdArr(recordIdArr));
     }
 
 }
