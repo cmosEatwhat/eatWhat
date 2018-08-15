@@ -9,6 +9,12 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+
+    <resultMap id="FoodWithScoreResultMap" type="com.eatwhat.entity.food.FoodWithScoreBo">
+        <result column="food_id" property="foodId" jdbcType="BIGINT"/>
+        <result column="foodavg" property="Score" jdbcType="DOUBLE"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id,
         score_context,
@@ -26,10 +32,22 @@
     </select>
 
 
-    <select id="getFoodIdsByShopId" parameterType="java.lang.String" resultType="java.lang.Long">
-        select food_id from score where shops_id = #{shopId}
+    <select id="getScoreByFoodIdArrys" resultType="com.eatwhat.entity.bo.FoodIdAndScore">
+
+        SELECT food_id as foodId,avg(score_context) as avgScore
+        from score
+        where food_id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY food_id
+        ORDER BY avgScore DESC;
     </select>
 
+
+    <select id="getFoodIdsByShopId" parameterType="java.lang.String" resultMap="FoodWithScoreResultMap">
+        SELECT avg(score_context) as foodavg,food_id FROM `score` GROUP BY food_id ORDER BY foodavg desc ;
+    </select>
 
 
     <!--根据id集合查询-->
@@ -50,7 +68,7 @@
             <choose>
                 <when test="pageRequest.sortList != null">
                     <foreach collection="pageRequest.sortList" open="order by" item="sort" separator=",">
-                    ${sort.jdbcField} ${sort.sortType}
+                        ${sort.jdbcField} ${sort.sortType}
                     </foreach>
                 </when>
                 <otherwise>
@@ -81,13 +99,13 @@
         SELECT
         COUNT(id)
         FROM score
-            <where>
-                <if test="id != null">AND id = #{id}</if>
-                <if test="context != null">AND score_context = #{context}</if>
-                <if test="foodId != null">AND food_id = #{foodId}</if>
-                <if test="createTime != null">AND create_time = #{createTime}</if>
-                <if test="updateTime != null">AND update_time = #{updateTime}</if>
-            </where>
+        <where>
+            <if test="id != null">AND id = #{id}</if>
+            <if test="context != null">AND score_context = #{context}</if>
+            <if test="foodId != null">AND food_id = #{foodId}</if>
+            <if test="createTime != null">AND create_time = #{createTime}</if>
+            <if test="updateTime != null">AND update_time = #{updateTime}</if>
+        </where>
     </select>
 
 

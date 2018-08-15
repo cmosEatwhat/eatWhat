@@ -1,6 +1,7 @@
 package com.eatwhat.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @date 2018/08/14
  */
 @Entity
+@Data
 @Table(name="category")
 public class Category implements Serializable {
 
@@ -24,10 +26,15 @@ public class Category implements Serializable {
     private Long id;
 
     /**
+     *商铺Id
+     */
+    private Long shopId;
+
+    /**
      *类名
      */
-    @Column(name = "shops_name")
-    private String shopsName;
+    @Column(name = "category_name")
+    private String categoryName;
 
     /**
      *创建时间
@@ -42,38 +49,5 @@ public class Category implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss ")
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date updateTime;
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getShopsName() {
-        return this.shopsName;
-    }
-    public void setShopsName(String shopsName) {
-        this.shopsName = shopsName;
-    }
-
-
-
 
 }

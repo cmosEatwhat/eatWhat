@@ -1,7 +1,9 @@
 package com.eatwhat.service;
 
 import com.eatwhat.entity.Score;
+import com.eatwhat.entity.bo.FoodIdAndScore;
 import com.eatwhat.entity.comment.PageModel;
+import com.eatwhat.entity.food.FoodWithScoreBo;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public interface ScoreService {
      * @des 评分获取菜品
      * @param shopId
      */
-    List<Long> getFoodIdsByShopId (String shopId, PageModel pageModel);
+    List<FoodWithScoreBo> getFoodIdsByShopId (String shopId, PageModel pageModel);
 
     /**
     * @des 添加Score
@@ -59,5 +61,13 @@ public interface ScoreService {
     * @param score
     */
     int count(Score score);
+
+
+
+    /**
+    * @des 菜品Id获取评分
+     */
+    List<FoodIdAndScore> getScoreByFoodIdArrys(List<Long> foodIds);
+
 
 }

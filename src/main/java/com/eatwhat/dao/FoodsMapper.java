@@ -27,17 +27,7 @@ public interface FoodsMapper {
     */
     int deleteById(@Param("recordId") String recordId);
 
-    /**
-    * @des 根据id集合删除
-    * @param idArr
-    */
-    int deleteByIdArr(@Param("idArr") Long[] idArr);
 
-    /**
-    * @des 修改Foods
-    * @param foods
-    */
-    int updateFoods(Foods foods);
 
     /**
     * @des 根据Id获取
@@ -45,18 +35,16 @@ public interface FoodsMapper {
     */
     Foods findById(String recordId);
 
-    /**
-    * @des 根据id 集合查询信息
-    * @param idArr
-    */
-    List<FoodsVo> findByIdArr(@Param("idArr") Long[] idArr);
 
-
-    /**
-    * @des 根据条件计数
-    * @param foods
-    */
-    int count(Foods foods);
 
     List<FoodsVo> findByShopsId(@Param("shopsId") String shopsId);
+
+    /*
+     *根据分类和店铺查所有商品ID
+     */
+    List<Long> findByShopsIdAndCategoryId(@Param("shopId") String shopId,@Param("categoryId") String categoryId);
+
+
+
+    FoodsVo findFoodById(@Param("foodId") Long foodId);
 }

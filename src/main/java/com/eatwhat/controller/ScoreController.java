@@ -1,6 +1,7 @@
 package com.eatwhat.controller;
 
 import com.eatwhat.entity.Score;
+import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ScoreService;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,15 @@ public class ScoreController {
     @ResponseBody
     public ServerResponse findScoreById(@RequestParam("recordId") String recordId)  {
         return new ServerResponse<Score>().createBySuccess(scoreService.findById(recordId));
+    }
+    /**
+     * @des 热度
+     * @param pageModel
+     */
+    @RequestMapping(value = "/hot")
+    @ResponseBody
+    public ServerResponse findScoreHot(PageModel pageModel)  {
+        return new ServerResponse<Score>().createBySuccess(scoreService.getFoodIdsByShopId("1",pageModel));
     }
 
 

@@ -3,9 +3,11 @@ package com.eatwhat.service.impl;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.eatwhat.dao.FoodsMapper;
 import com.eatwhat.entity.Foods;
+import com.eatwhat.entity.bo.FoodIdAndScore;
 import com.eatwhat.entity.comment.ErrorCode;
 import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
+import com.eatwhat.entity.food.FoodWithScoreBo;
 import com.eatwhat.entity.food.FoodsVo;
 import com.eatwhat.service.FoodsService;
 import com.eatwhat.service.ScoreService;
@@ -54,23 +56,7 @@ public class FoodsServiceImpl implements FoodsService {
         return findFoodById(String.valueOf(foods.getId()));
     }
 
-    /**
-     * @param foods
-     * @des 修改 Foods
-     */
-    @Override
-    @Transactional
-    public Foods updateFoods(Foods foods) {
-        log.info("修改foods-> foods={}", JSONUtils.toJSONString(foods));
-        if (null == foods.getId()) {
-            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
-        }
-        int updateResult = foodsMapper.updateFoods(foods);
-        if (updateResult < 1) {
-            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
-        }
-        return findFoodById(String.valueOf(foods.getId()));
-    }
+
 
     private Foods findFoodById(String s) {
         return foodsMapper.findById(s);
@@ -94,19 +80,6 @@ public class FoodsServiceImpl implements FoodsService {
         return delResult;
     }
 
-    /**
-     * @param idArr
-     * @des 根据主键集合删除信息
-     */
-    @Override
-    @Transactional
-    public int deleteByIdArr(Long[] idArr) {
-        log.info("批量删除foods -> idArr={}", JSONUtils.toJSONString(idArr));
-        if (null == idArr || 0 == idArr.length) {
-            ServerResponse.createDefaultErrorMessage(ErrorCode.REQUEST_PARAMS_ERROR);
-        }
-        return foodsMapper.deleteByIdArr(idArr);
-    }
 
     /**
      * @param recordId
@@ -122,28 +95,44 @@ public class FoodsServiceImpl implements FoodsService {
         return food;
     }
 
-    /**
-     * @param idArr id集合
-     * @des 根据id 集合查询信息
+
+
+
+    /*
+    *根据分类和店铺查所有商品ID
      */
     @Override
-    @Transactional(readOnly = true)
-    public List<FoodsVo> findByIdArr(Long[] idArr) {
-        log.info("根据主键集合查询foods -> idArr={}", JSONUtils.toJSONString(idArr));
-        return foodsMapper.findByIdArr(idArr);
+    public List<Long> findByShopsIdAndCategoryId(String shopsId, String CategoryId, PageModel pageModel) {
+        List<Long> foodIdList = foodsMapper.findByShopsIdAndCategoryId(shopsId,CategoryId);
+        return foodIdList;
+    }
+
+    /*
+     *店铺和分类查菜品
+     */
+    public List<FoodsVo> findAllByShopsIdAndCategoryId(String shopsId, String categoryId, PageModel pageModel) {
+
+        log.info("enter method findAllByShopsIdAndCategoryId shopsId{}" + shopsId);
+        //设置分页
+//        PageHelper.startPage(pageModel);
+
+        List<Long> foodIdList = findByShopsIdAndCategoryId(shopsId,categoryId,pageModel);
+
+        List<FoodIdAndScore> foodIdAndScoreList = scoreService.getScoreByFoodIdArrys(foodIdList);
+
+        List<FoodsVo> foodsVoList = new ArrayList<>();
+
+        for(FoodIdAndScore foodIdAndScore : foodIdAndScoreList){
+            FoodsVo foodsVo = new FoodsVo();
+            foodsVo = foodsMapper.findFoodById(foodIdAndScore.getFoodId());
+            foodsVo.setAvgScore(foodIdAndScore.getAvgScore());
+            foodsVoList.add(foodsVo);
+        }
+
+        return foodsVoList;
     }
 
 
-    /**
-     * @param foods
-     * @des 根据条件统计信息
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public int count(Foods foods) {
-        log.info("根据条件计数 -> foods={}", JSONUtils.toJSONString(foods));
-        return foodsMapper.count(foods);
-    }
     /*
      *店铺查菜品
      */
@@ -159,28 +148,28 @@ public class FoodsServiceImpl implements FoodsService {
 
         return pageInfo;
     }
-//
-//    /*
-//     *店铺查菜品
-//     */
-//    public List<FoodsVo> findByShopsId(final String shopsId, PageModel pageModel) {
-//
-//        log.info("enter method findByShopsId shopsId{}" + shopsId);
-//
-//        List<Long> foodIdList = scoreService.getFoodIdsByShopId(shopsId,pageModel);
-//
-//        List<Foods> foodsList = new ArrayList<>(10);
-////        foodIdList.forEach( id ->{
-////                Foods food = new Foods();
-////                food = findById(id.toString());
-////                foodsList.add(food);
-////        });
-//
-//
-//        //取分页信息
-//
-//        return null;
-//    }
+
+    /*
+     *店铺查菜品
+     */
+    public List<FoodsVo> findByShopsId1(final String shopsId, PageModel pageModel) {
+
+        log.info("enter method findByShopsId shopsId{}" + shopsId);
+
+        List<FoodWithScoreBo> foodIdList = scoreService.getFoodIdsByShopId(shopsId,pageModel);
+
+        List<Foods> foodsList = new ArrayList<>(10);
+//        foodIdList.forEach( id ->{
+//                Foods food = new Foods();
+//                food = findById(id.toString());
+//                foodsList.add(food);
+//        });
+
+
+        //取分页信息
+
+        return null;
+    }
 
 
 }

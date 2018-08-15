@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 描述：控制层
@@ -31,6 +32,19 @@ public class FoodsController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * @des 查询所有
+     */
+
+    @ApiOperation(value = "查店铺（分类）所有菜品")
+    @RequestMapping(value = "/listByShopIdAndCategoryId", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<List<FoodsVo>> findAllByShopsIdAndCategoryId( String shopId, String categoryId) {
+
+        List<FoodsVo> foodsVoList = foodsService.findAllByShopsIdAndCategoryId(shopId,categoryId,new PageModel());
+
+        return ServerResponse.createBySuccess(foodsVoList);
+    }
 
     /**
      * @des 查询所有
@@ -39,7 +53,7 @@ public class FoodsController {
     @ApiOperation(value = "查店铺所有菜品")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<PageInfo<FoodsVo>> findFoodsList(String shopsId, @Valid  PageModel pageModel) {
+    public ServerResponse<PageInfo<FoodsVo>> findFoodsList(String shopsId, @Valid PageModel pageModel) {
 
         logger.info("enter method findFoodsList :");
 
@@ -69,25 +83,6 @@ public class FoodsController {
         return new ServerResponse<Integer>().createBySuccess(foodsService.deleteById(recordId));
     }
 
-    /**
-     * @param recordIdArr id
-     * @des 根据id集合删除
-     */
-    @RequestMapping(value = "/del/list", method = RequestMethod.DELETE)
-    @ResponseBody
-    public ServerResponse deleteById(@RequestParam("recordIdArr") Long[] recordIdArr) {
-        return new ServerResponse<Integer>().createBySuccess(foodsService.deleteByIdArr(recordIdArr));
-    }
-
-    /**
-     * @param foods
-     * @des 修改
-     */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @ResponseBody
-    public ServerResponse updateFoods(@RequestBody Foods foods) {
-        return new ServerResponse<Foods>().createBySuccess(foodsService.updateFoods(foods));
-    }
 
     /**
      * @param id
@@ -98,7 +93,6 @@ public class FoodsController {
     public ServerResponse findFoodsById(@PathVariable String id) {
         return new ServerResponse<Foods>().createBySuccess(foodsService.findById(id));
     }
-
 
 
 }

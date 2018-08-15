@@ -26,17 +26,6 @@ public interface FoodsService {
     */
     int deleteById(String recordId);
 
-    /**
-    * @des 根据id集合删除
-    * @param idArr
-    */
-    int deleteByIdArr(Long[] idArr);
-
-    /**
-    * @des 修改Foods
-    * @param foods
-    */
-    Foods updateFoods(Foods foods);
 
     /**
     * @des 根据Id获取
@@ -44,18 +33,16 @@ public interface FoodsService {
      */
     Foods findById(String recordId);
 
-    /**
-    * @des 根据id 集合查询信息
-    * @param idArr
-    */
-    List<FoodsVo> findByIdArr(Long[] idArr);
 
 
-    /**
-    * @des 根据条件计数
-    * @param foods
-    */
-    int count(Foods foods);
-    public PageInfo<FoodsVo> findByShopsId(String shopsId, PageModel pageModel);
+    /*
+     *根据分类和店铺查所有商品ID
+     */
+    List<Long> findByShopsIdAndCategoryId(String shopsId, String CategoryId, PageModel pageModel);
+    /*
+     *店铺和分类查菜品
+     */
+    List<FoodsVo> findAllByShopsIdAndCategoryId(String shopsId, String categoryId, PageModel pageModel);
+    PageInfo<FoodsVo> findByShopsId(String shopsId, PageModel pageModel);
 //    List<FoodsVo> findByShopsId(String shopsId, PageModel pageModel);
 }
