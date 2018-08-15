@@ -6,6 +6,7 @@ import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ScoreService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,7 +29,7 @@ public class ScoreController {
      * @param score
      * @des 创建
      */
-    @RequestMapping("/save")
+    @RequestMapping(value = "/save",method = RequestMethod.PUT)
     @ResponseBody
     public ServerResponse save(Score score) {
         return new ServerResponse<Score>().createBySuccess(scoreService.saveScore(score));
@@ -38,7 +39,7 @@ public class ScoreController {
      * @des 根据id查询
      * @param recordId
      */
-    @RequestMapping(value = "/findBy")
+    @RequestMapping(value = "/findBy",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse findScoreById(@RequestParam("recordId") String recordId)  {
         return new ServerResponse<Score>().createBySuccess(scoreService.findById(recordId));
@@ -47,7 +48,7 @@ public class ScoreController {
      * @des 热度
      * @param pageModel
      */
-    @RequestMapping(value = "/hot")
+    @RequestMapping(value = "/hot",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse findScoreHot(PageModel pageModel)  {
         return new ServerResponse<Score>().createBySuccess(scoreService.getFoodIdsByShopId("1",pageModel));

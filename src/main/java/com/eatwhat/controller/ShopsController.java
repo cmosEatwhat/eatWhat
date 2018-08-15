@@ -4,10 +4,7 @@ import com.eatwhat.entity.Shops;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ShopsService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -28,7 +25,7 @@ public class ShopsController {
      * @param shops
      * @des 注册店铺
      */
-    @RequestMapping("/save")
+    @RequestMapping(value = "/save",method = RequestMethod.PUT)
     @ResponseBody
     public ServerResponse save(@RequestBody Shops shops) {
         return new ServerResponse<Shops>().createBySuccess(shopsService.saveShops(shops));
@@ -38,7 +35,7 @@ public class ShopsController {
      * @des 根据id删除
      * @param recordId id
      */
-    @RequestMapping(value = "/del")
+    @RequestMapping(value = "/del",method = RequestMethod.DELETE)
     @ResponseBody
     public ServerResponse deleteById(@RequestParam("recordId") String recordId) {
         return new ServerResponse<Integer>().createBySuccess(shopsService.deleteById(recordId));
@@ -49,7 +46,7 @@ public class ShopsController {
      * @des 根据id查询
      * @param recordId
      */
-    @RequestMapping(value = "/find")
+    @RequestMapping(value = "/find",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse findShopsById(@RequestParam("recordId") String recordId)  {
         return new ServerResponse<Shops>().createBySuccess(shopsService.findById(recordId));
