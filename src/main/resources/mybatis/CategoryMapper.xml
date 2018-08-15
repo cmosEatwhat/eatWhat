@@ -10,11 +10,18 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,
-        shop_id,
-        category_name,
-        create_time,
-        update_time
+            id,
+            shop_id,
+            category_name,
+            create_time,
+            update_time
     </sql>
 
+    <!--根据id查询-->
+    <select id="findAllById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from category
+        where shop_id = #{recordId}
+    </select>
 </mapper>
