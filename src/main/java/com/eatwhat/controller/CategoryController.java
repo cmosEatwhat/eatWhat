@@ -4,6 +4,7 @@ package com.eatwhat.controller;
 import com.eatwhat.entity.Conment;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.CategoryService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class CategoryController {
      * @param shopId
      */
     @ResponseBody
+    @ApiOperation(value = "通过店铺ID查询分类信息")
     @RequestMapping(value = "/listCategoryByShopId/{shopId}",method = RequestMethod.GET)
     public ServerResponse listCategoryByShopId(@PathVariable String shopId)  {
         return new ServerResponse<Conment>().createBySuccess(categoryService.findAllById(shopId));

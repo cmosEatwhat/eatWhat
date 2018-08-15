@@ -4,6 +4,7 @@ import com.eatwhat.entity.Score;
 import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ScoreService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,7 @@ public class ScoreController {
      * @des 创建
      */
     @RequestMapping(value = "/save",method = RequestMethod.PUT)
+    @ApiOperation(value = "添加评分")
     @ResponseBody
     public ServerResponse save(Score score) {
         return new ServerResponse<Score>().createBySuccess(scoreService.saveScore(score));
