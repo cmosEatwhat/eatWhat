@@ -37,7 +37,7 @@ public class ConmentController {
     @ApiOperation("查商品评论")
     @RequestMapping(value = "/byFood",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<PageInfo<Conment>> save(String foodId,@Valid PageModel pageModel) {
+    public ServerResponse<PageInfo<Conment>> findConmentByid(String foodId,@Valid PageModel pageModel) {
 
         PageInfo<Conment> conmentPageInfo =  conmentService.getConmentListByfoodId(foodId,pageModel);
 
@@ -50,46 +50,22 @@ public class ConmentController {
      * @param conment
      * @des 创建
      */
+
+    @ApiOperation("添加商品评论")
     @ResponseBody
     @RequestMapping(value = "/save",method = RequestMethod.GET)
     public ServerResponse save(Conment conment) {
         return new ServerResponse<Conment>().createBySuccess(conmentService.saveConment(conment));
     }
 
-    /**
-     * @des 根据id删除
-     * @param recordId id
-     */
-    @RequestMapping(value = "/del")
-    @ResponseBody
-    public ServerResponse deleteById(@RequestParam("recordId") String recordId) {
-        return new ServerResponse<Integer>().createBySuccess(conmentService.deleteById(recordId));
-    }
 
-    /**
-     * @des 根据id集合删除
-     * @param recordIdArr id
-     */
-    @RequestMapping(value = "/del/list")
-    @ResponseBody
-    public ServerResponse deleteById(@RequestParam("recordIdArr") Long[] recordIdArr) {
-        return new ServerResponse<Integer>().createBySuccess(conmentService.deleteByIdArr(recordIdArr));
-    }
 
-    /**
-     * @des 修改
-     * @param conment
-     */
-    @RequestMapping(value = "/update")
-    @ResponseBody
-    public ServerResponse updateConment(@RequestBody Conment conment) {
-        return new ServerResponse<Conment>().createBySuccess(conmentService.updateConment(conment));
-    }
 
     /**
      * @des 根据id查询
      * @param id
      */
+    @ApiOperation("查单个评论")
     @RequestMapping(value = "/find/{id}",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse findConmentById( @PathVariable String id)  {

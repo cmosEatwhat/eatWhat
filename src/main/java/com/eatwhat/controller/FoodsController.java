@@ -88,6 +88,7 @@ public class FoodsController {
      * @param id
      * @des 根据id查询
      */
+    @ApiOperation(value = "查菜品详情ById")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse findFoodsById(@PathVariable String id) {
