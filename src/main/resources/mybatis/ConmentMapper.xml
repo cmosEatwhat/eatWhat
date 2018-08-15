@@ -34,7 +34,7 @@
         <if test="conment !=null">
             <where>
                 <if test="conment.id != null">AND id = #{conment.id}</if>
-                <if test="conment.conment_context != null and conment.conment_context !='' ">AND conment-context like CONCAT('%',#{conment.conment-context},'%')</if>
+                <if test="conment.conmentContext != null and conment.conmentContext !='' ">AND conment_context like CONCAT('%',#{conment.conmentContext},'%')</if>
                 <if test="conment.foodId != null">AND food_id = #{conment.foodId}</if>
                 <if test="conment.createTime != null">AND create_time = #{conment.createTime}</if>
                 <if test="conment.updateTime != null">AND update_time = #{conment.updateTime}</if>
@@ -77,8 +77,8 @@
         FROM conment
             <where>
                 <if test="id != null">AND id = #{id}</if>
-                <if test="conment-context != null and conment-context !='' ">
-                    AND conment-context like CONCAT('%',#{conment-context},'%')
+                <if test="conmentContext != null and conmentContext !='' ">
+                    AND conment_context like CONCAT('%',#{conmentContext},'%')
                 </if>
                 <if test="foodId != null">AND food_id = #{foodId}</if>
                 <if test="createTime != null">AND create_time = #{createTime}</if>
@@ -92,8 +92,8 @@
             keyProperty="id">
         insert into conment
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="conment-context != null and conment-context !=''">
-                conment-context,
+            <if test="conmentContext != null and conmentContext !=''">
+                conment_context,
             </if>
             <if test="foodId != null">
                 food_id,
@@ -106,8 +106,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="conment-context != null and conment-context !=''">
-                #{conment-context,jdbcType=VARCHAR},
+            <if test="conmentContext != null and conmentContext !=''">
+                #{conmentContext,jdbcType=VARCHAR},
             </if>
             <if test="foodId != null">
                 #{foodId,jdbcType=BIGINT},
@@ -126,8 +126,8 @@
     <update id="updateConment" parameterType="com.eatwhat.entity.Conment">
         update conment
         <set>
-            <if test="conment-context != null and conment-context !=''">
-                conment-context = #{conment-context,jdbcType=VARCHAR},
+            <if test="conmentContext != null and conmentContext !=''">
+                conment_context = #{conmentContext,jdbcType=VARCHAR},
             </if>
             <if test="foodId != null">
                 food_id = #{foodId,jdbcType=BIGINT},

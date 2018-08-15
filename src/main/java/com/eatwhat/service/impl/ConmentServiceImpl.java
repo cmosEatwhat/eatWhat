@@ -39,7 +39,7 @@ public class ConmentServiceImpl implements ConmentService {
     @Override
     @Transactional
     public Conment saveConment(Conment conment){
-        log.info("添加conment -> conment={}",JSONUtils.toJSONString(conment));
+        //log.info("添加conment -> conment={}",JSONUtils.toJSONString(conment));
         int saveResult = conmentMapper.saveConment(conment);
         if (saveResult < 1) {
             ServerResponse.createDefaultErrorMessage(ErrorCode.SAVE_FAIL);

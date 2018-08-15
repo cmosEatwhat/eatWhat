@@ -4,7 +4,6 @@ import com.eatwhat.entity.Score;
 import com.eatwhat.entity.comment.ServerResponse;
 import com.eatwhat.service.ScoreService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,7 +29,7 @@ public class ScoreController {
      */
     @RequestMapping("/save")
     @ResponseBody
-    public ServerResponse save(@RequestBody Score score) {
+    public ServerResponse save(Score score) {
         return new ServerResponse<Score>().createBySuccess(scoreService.saveScore(score));
     }
 

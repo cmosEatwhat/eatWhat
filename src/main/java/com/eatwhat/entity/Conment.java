@@ -1,6 +1,7 @@
 package com.eatwhat.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @date 2018/08/13
  */
 @Entity
+@Data
 @Table(name="conment")
 public class Conment implements Serializable {
 
@@ -26,7 +28,7 @@ public class Conment implements Serializable {
     /**
      *评论
      */
-    @Column(name = "conmentContext")
+    @Column(name = "conment_context")
     private String conmentContext;
 
 
@@ -49,53 +51,6 @@ public class Conment implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss ")
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date updateTime;
-
-    public String getConmentContext() {
-        return conmentContext;
-    }
-
-    public void setConmentContext(String conmentContext) {
-        this.conmentContext = conmentContext;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getContext() {
-        return this.conmentContext;
-    }
-    public void setContext(String context) {
-        this.conmentContext = context;
-    }
-
-    public Long getFoodId() {
-        return this.foodId;
-    }
-    public void setFoodId(Long foodId) {
-        this.foodId = foodId;
-    }
-
-
 
 
 }
