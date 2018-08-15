@@ -59,4 +59,13 @@ public interface FoodsMapper {
     int count(Foods foods);
 
     List<FoodsVo> findByShopsId(@Param("shopsId") String shopsId);
+
+    /*
+     *根据分类和店铺查所有商品ID
+     */
+    List<Long> findByShopsIdAndCategoryId(@Param("shopId") String shopId,@Param("categoryId") String categoryId);
+
+
+
+    FoodsVo findFoodById(@Param("foodId") Long foodId);
 }

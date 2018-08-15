@@ -3,9 +3,11 @@ package com.eatwhat.service.impl;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.eatwhat.dao.FoodsMapper;
 import com.eatwhat.entity.Foods;
+import com.eatwhat.entity.bo.FoodIdAndScore;
 import com.eatwhat.entity.comment.ErrorCode;
 import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
+import com.eatwhat.entity.food.FoodWithScoreBo;
 import com.eatwhat.entity.food.FoodsVo;
 import com.eatwhat.service.FoodsService;
 import com.eatwhat.service.ScoreService;
@@ -144,6 +146,43 @@ public class FoodsServiceImpl implements FoodsService {
         log.info("根据条件计数 -> foods={}", JSONUtils.toJSONString(foods));
         return foodsMapper.count(foods);
     }
+
+
+    /*
+    *根据分类和店铺查所有商品ID
+     */
+    @Override
+    public List<Long> findByShopsIdAndCategoryId(String shopsId, String CategoryId, PageModel pageModel) {
+        List<Long> foodIdList = foodsMapper.findByShopsIdAndCategoryId(shopsId,CategoryId);
+        return foodIdList;
+    }
+
+    /*
+     *店铺和分类查菜品
+     */
+    public List<FoodsVo> findAllByShopsIdAndCategoryId(String shopsId, String categoryId, PageModel pageModel) {
+
+        log.info("enter method findAllByShopsIdAndCategoryId shopsId{}" + shopsId);
+        //设置分页
+//        PageHelper.startPage(pageModel);
+
+        List<Long> foodIdList = findByShopsIdAndCategoryId(shopsId,categoryId,pageModel);
+
+        List<FoodIdAndScore> foodIdAndScoreList = scoreService.getScoreByFoodIdArrys(foodIdList);
+
+        List<FoodsVo> foodsVoList = new ArrayList<>();
+
+        for(FoodIdAndScore foodIdAndScore : foodIdAndScoreList){
+            FoodsVo foodsVo = new FoodsVo();
+            foodsVo = foodsMapper.findFoodById(foodIdAndScore.getFoodId());
+            foodsVo.setAvgScore(foodIdAndScore.getAvgScore());
+            foodsVoList.add(foodsVo);
+        }
+
+        return foodsVoList;
+    }
+
+
     /*
      *店铺查菜品
      */
@@ -159,28 +198,28 @@ public class FoodsServiceImpl implements FoodsService {
 
         return pageInfo;
     }
-//
-//    /*
-//     *店铺查菜品
-//     */
-//    public List<FoodsVo> findByShopsId(final String shopsId, PageModel pageModel) {
-//
-//        log.info("enter method findByShopsId shopsId{}" + shopsId);
-//
-//        List<Long> foodIdList = scoreService.getFoodIdsByShopId(shopsId,pageModel);
-//
-//        List<Foods> foodsList = new ArrayList<>(10);
-////        foodIdList.forEach( id ->{
-////                Foods food = new Foods();
-////                food = findById(id.toString());
-////                foodsList.add(food);
-////        });
-//
-//
-//        //取分页信息
-//
-//        return null;
-//    }
+
+    /*
+     *店铺查菜品
+     */
+    public List<FoodsVo> findByShopsId1(final String shopsId, PageModel pageModel) {
+
+        log.info("enter method findByShopsId shopsId{}" + shopsId);
+
+        List<FoodWithScoreBo> foodIdList = scoreService.getFoodIdsByShopId(shopsId,pageModel);
+
+        List<Foods> foodsList = new ArrayList<>(10);
+//        foodIdList.forEach( id ->{
+//                Foods food = new Foods();
+//                food = findById(id.toString());
+//                foodsList.add(food);
+//        });
+
+
+        //取分页信息
+
+        return null;
+    }
 
 
 }

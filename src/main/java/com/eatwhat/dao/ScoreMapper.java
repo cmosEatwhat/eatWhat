@@ -1,6 +1,8 @@
 package com.eatwhat.dao;
 
 import com.eatwhat.entity.Score;
+import com.eatwhat.entity.bo.FoodIdAndScore;
+import com.eatwhat.entity.food.FoodWithScoreBo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -57,5 +59,10 @@ public interface ScoreMapper {
     */
     int count(Score score);
 
-    List<Long> getFoodIdsByShopId(@Param("shopId") String shopId);
+    List<FoodWithScoreBo> getFoodIdsByShopId(@Param("shopId") String shopId);
+
+    /**
+     * @des 菜品Id获取评分
+     */
+    List<FoodIdAndScore> getScoreByFoodIdArrys(List<Long> foodIds);
 }

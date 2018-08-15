@@ -3,18 +3,21 @@ package com.eatwhat.service.impl;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.eatwhat.dao.ScoreMapper;
 import com.eatwhat.entity.Score;
+import com.eatwhat.entity.bo.FoodIdAndScore;
 import com.eatwhat.entity.comment.ErrorCode;
 import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
+import com.eatwhat.entity.food.FoodWithScoreBo;
 import com.eatwhat.service.ScoreService;
-import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,12 +34,26 @@ public class ScoreServiceImpl implements ScoreService {
 
     private static final Logger log = LoggerFactory.getLogger(ScoreService.class);
 
+    /**
+     * @des 菜品Id获取评分
+     */
     @Override
-    public List<Long> getFoodIdsByShopId(String shopId, PageModel pageModel) {
-        //设置分页
-        PageHelper.startPage(pageModel);
+    public List<FoodIdAndScore> getScoreByFoodIdArrys(List<Long> foodIds) {
 
-        List<Long> foodIdList = scoreMapper.getFoodIdsByShopId(shopId);
+        if(CollectionUtils.isEmpty(foodIds)){
+            return new ArrayList<>();
+        }
+
+        List<FoodIdAndScore> foodIdAndScoreList = scoreMapper.getScoreByFoodIdArrys(foodIds);
+        return foodIdAndScoreList;
+    }
+
+    @Override
+    public List<FoodWithScoreBo> getFoodIdsByShopId(String shopId, PageModel pageModel) {
+//        //设置分页
+//        PageHelper.startPage(pageModel);
+
+        List<FoodWithScoreBo> foodIdList = scoreMapper.getFoodIdsByShopId(shopId);
 
         return foodIdList;
     }

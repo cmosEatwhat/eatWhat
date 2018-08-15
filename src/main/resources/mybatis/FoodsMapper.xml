@@ -53,10 +53,13 @@
         <if test="foods !=null">
             <where>
                 <if test="foods.id != null">AND id = #{foods.id}</if>
-                <if test="foods.name != null and foods.name !='' ">AND foods_name like CONCAT('%',#{foods.name},'%')</if>
+                <if test="foods.name != null and foods.name !='' ">AND foods_name like CONCAT('%',#{foods.name},'%')
+                </if>
                 <if test="foods.price != null">AND foods_price = #{foods.price}</if>
                 <if test="foods.score != null">AND foods_score = #{foods.score}</if>
-                <if test="foods.image != null and foods.image !='' ">AND foods_image like CONCAT('%',#{foods.image},'%')</if>
+                <if test="foods.image != null and foods.image !='' ">AND foods_image like
+                    CONCAT('%',#{foods.image},'%')
+                </if>
 
                 <if test="foods.categoryId != null">AND category_id = #{foods.categoryId}</if>
                 <if test="foods.shopsId != null">AND shops_id = #{foods.shopsId}</if>
@@ -68,7 +71,7 @@
             <choose>
                 <when test="pageRequest.sortList != null">
                     <foreach collection="pageRequest.sortList" open="order by" item="sort" separator=",">
-                    ${sort.jdbcField} ${sort.sortType}
+                        ${sort.jdbcField} ${sort.sortType}
                     </foreach>
                 </when>
                 <otherwise>
@@ -99,21 +102,21 @@
         SELECT
         COUNT(id)
         FROM foods
-            <where>
-                <if test="id != null">AND id = #{id}</if>
-                <if test="name != null and name !='' ">
-                    AND foods_name like CONCAT('%',#{name},'%')
-                </if>
-                <if test="price != null">AND foods_price = #{price}</if>
-                <if test="score != null">AND foods_score = #{score}</if>
-                <if test="image != null and image !='' ">
-                    AND foods_image like CONCAT('%',#{image},'%')
-                </if>
-                <if test="foods.categoryId != null">AND category_id = #{foods.categoryId}</if>
-                <if test="foods.shopsId != null">AND shops_id = #{foods.shopsId}</if>
-                <if test="createTime != null">AND create_time = #{createTime}</if>
-                <if test="updateTime != null">AND update_time = #{updateTime}</if>
-            </where>
+        <where>
+            <if test="id != null">AND id = #{id}</if>
+            <if test="name != null and name !='' ">
+                AND foods_name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="price != null">AND foods_price = #{price}</if>
+            <if test="score != null">AND foods_score = #{score}</if>
+            <if test="image != null and image !='' ">
+                AND foods_image like CONCAT('%',#{image},'%')
+            </if>
+            <if test="foods.categoryId != null">AND category_id = #{foods.categoryId}</if>
+            <if test="foods.shopsId != null">AND shops_id = #{foods.shopsId}</if>
+            <if test="createTime != null">AND create_time = #{createTime}</if>
+            <if test="updateTime != null">AND update_time = #{updateTime}</if>
+        </where>
     </select>
 
 
@@ -192,7 +195,7 @@
                 category_id = #{categoryId,jdbcType=BIGINT},
             </if>
             <if test="shopsId != null ">
-               shops_id =  #{shopsId,jdbcType=BIGINT},
+                shops_id = #{shopsId,jdbcType=BIGINT},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=DATETIME},
@@ -224,11 +227,29 @@
     <!--查单个店铺所有-->
 
     <select id="findByShopsId" parameterType="java.lang.String" resultMap="FoodsVoMap">
-       select
+        select
         <include refid="Vo_Column_List"/>
         from foods where shops_id = #{shopsId}
     </select>
 
+
+    <!--*根据分类和店铺查所有商品ID-->
+
+    <select id="findByShopsIdAndCategoryId" resultType="java.lang.Long">
+        select id from foods
+        where
+
+        <if test="shopId != null">  shops_id = #{shopId}</if>
+        <if test="categoryId != null">AND category_id = #{categoryId}</if>
+
+    </select>
+
+
+    <select id="findFoodById" parameterType="java.lang.Long" resultMap = "FoodsVoMap">
+        select
+        <include refid="Vo_Column_List"/>
+        from foods where id = #{foodId}
+    </select>
 
 
 </mapper>
