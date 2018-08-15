@@ -3,14 +3,14 @@
 <mapper namespace="com.eatwhat.dao.CategoryMapper">
     <resultMap id="BaseResultMap" type="com.eatwhat.entity.Category">
         <result column="id" property="id" jdbcType="BIGINT"/>
-        <result column="shops_name" property="shopsName" jdbcType="VARCHAR"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,
-        shops_name,
+        category_name,
         create_time,
         update_time
     </sql>
@@ -32,7 +32,7 @@
         <if test="category !=null">
             <where>
                 <if test="category.id != null">AND id = #{category.id}</if>
-                <if test="category.shopsName != null and category.shopsName !='' ">AND shops_name like CONCAT('%',#{category.shopsName},'%')</if>
+                <if test="category.categoryName != null and category.categoryName !='' ">AND category_name like CONCAT('%',#{category.categoryName},'%')</if>
                 <if test="category.createTime != null">AND create_time = #{category.createTime}</if>
                 <if test="category.updateTime != null">AND update_time = #{category.updateTime}</if>
             </where>
@@ -74,8 +74,8 @@
         FROM category
             <where>
                 <if test="id != null">AND id = #{id}</if>
-                <if test="shopsName != null and shopsName !='' ">
-                    AND shops_name like CONCAT('%',#{shopsName},'%')
+                <if test="categoryName != null and categoryName !='' ">
+                    AND category_name like CONCAT('%',#{categoryName},'%')
                 </if>
                 <if test="createTime != null">AND create_time = #{createTime}</if>
                 <if test="updateTime != null">AND update_time = #{updateTime}</if>
@@ -88,8 +88,8 @@
             keyProperty="id">
         insert into category
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="shopsName != null and shopsName !=''">
-                shops_name,
+            <if test="categoryName != null and categoryName !=''">
+                category_name,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -99,8 +99,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="shopsName != null and shopsName !=''">
-                #{shopsName,jdbcType=VARCHAR},
+            <if test="categoryName != null and categoryName !=''">
+                #{categoryName,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
@@ -116,8 +116,8 @@
     <update id="updateCategory" parameterType="com.eatwhat.entity.Category">
         update category
         <set>/
-            <if test="shopsName != null and shopsName !=''">
-                shops_name = #{shopsName,jdbcType=VARCHAR},
+            <if test="categoryName != null and categoryName !=''">
+                category_name = #{categoryName,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
