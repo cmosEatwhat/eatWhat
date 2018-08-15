@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 描述： 服务实现层
@@ -45,23 +43,6 @@ public class ShopsServiceImpl implements ShopsService {
         return findById(String.valueOf(shops.getId()));
     }
 
-    /**
-     * @des 修改 Shops
-     * @param shops
-     */
-    @Override
-    @Transactional
-    public Shops updateShops(Shops shops){
-        log.info("修改shops-> shops={}",JSONUtils.toJSONString(shops));
-        if(null == shops.getId()){
-            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
-        }
-        int updateResult = shopsMapper.updateShops(shops);
-        if (updateResult < 1) {
-            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
-        }
-        return findById(String.valueOf(shops.getId()));
-    }
 
     /**
      * @des 根据主键删除信息
@@ -81,19 +62,6 @@ public class ShopsServiceImpl implements ShopsService {
         return delResult;
     }
 
-    /**
-     * @des 根据主键集合删除信息
-     * @param idArr
-     */
-    @Override
-    @Transactional
-    public int deleteByIdArr(Long[] idArr){
-        log.info("批量删除shops -> idArr={}",JSONUtils.toJSONString(idArr));
-        if(null == idArr || 0 == idArr.length){
-            ServerResponse.createDefaultErrorMessage(ErrorCode.REQUEST_PARAMS_ERROR);
-        }
-        return shopsMapper.deleteByIdArr(idArr);
-    }
 
     /**
      * @des 根据id 查询信息
@@ -106,28 +74,6 @@ public class ShopsServiceImpl implements ShopsService {
         return StringUtils.isEmpty(recordId ) ? null : shopsMapper.findById(recordId) ;
     }
 
-    /**
-     * @des 根据id 集合查询信息
-     * @param idArr id集合
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<Shops> findByIdArr(Long[] idArr){
-        log.info("根据主键集合查询shops -> idArr={}",JSONUtils.toJSONString(idArr));
-        return shopsMapper.findByIdArr(idArr);
-    }
 
-    
-
-    /**
-     * @des 根据条件统计信息
-     * @param shops
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public int count(Shops shops) {
-        log.info("根据条件计数 -> shops={}", JSONUtils.toJSONString(shops));
-        return shopsMapper.count(shops);
-    }
 
 }

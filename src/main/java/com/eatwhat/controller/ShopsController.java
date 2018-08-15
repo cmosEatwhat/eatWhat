@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 描述：控制层
@@ -45,25 +44,6 @@ public class ShopsController {
         return new ServerResponse<Integer>().createBySuccess(shopsService.deleteById(recordId));
     }
 
-    /**
-     * @des 根据id集合删除
-     * @param recordIdArr id
-     */
-    @RequestMapping(value = "/del/list")
-    @ResponseBody
-    public ServerResponse deleteById(@RequestParam("recordIdArr") Long[] recordIdArr) {
-        return new ServerResponse<Integer>().createBySuccess(shopsService.deleteByIdArr(recordIdArr));
-    }
-
-    /**
-     * @des 修改
-     * @param shops
-     */
-    @RequestMapping(value = "/update")
-    @ResponseBody
-    public ServerResponse updateShops(@RequestBody Shops shops) {
-        return new ServerResponse<Shops>().createBySuccess(shopsService.updateShops(shops));
-    }
 
     /**
      * @des 根据id查询
@@ -75,15 +55,7 @@ public class ShopsController {
         return new ServerResponse<Shops>().createBySuccess(shopsService.findById(recordId));
     }
 
-    /**
-     * @des 根据id集合查询
-     * @param recordIdArr
-     */
-    @RequestMapping(value = "/find/list")
-    @ResponseBody
-    public ServerResponse findShopsByIdList(@RequestParam("recordIdArr") Long[] recordIdArr)  {
-        return new ServerResponse<List<Shops>>().createBySuccess(shopsService.findByIdArr(recordIdArr));
-    }
+
 
 
 }

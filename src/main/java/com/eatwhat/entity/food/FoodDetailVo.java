@@ -1,6 +1,5 @@
 package com.eatwhat.entity.food;
 
-import com.eatwhat.entity.Conment;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Description:
@@ -58,12 +56,9 @@ public class FoodDetailVo  implements Serializable {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date updateTime;
 
-    /**
-     *评论
-     */
-    private List<Conment> conmentList;
-
     private String shopsAddress;
+
+    private String shopsName;
 
 
 }

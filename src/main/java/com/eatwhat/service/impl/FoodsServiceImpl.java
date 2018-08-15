@@ -3,19 +3,23 @@ package com.eatwhat.service.impl;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.eatwhat.dao.FoodsMapper;
 import com.eatwhat.entity.Foods;
+import com.eatwhat.entity.Shops;
 import com.eatwhat.entity.bo.FoodIdAndScore;
 import com.eatwhat.entity.comment.ErrorCode;
 import com.eatwhat.entity.comment.PageModel;
 import com.eatwhat.entity.comment.ServerResponse;
+import com.eatwhat.entity.food.FoodDetailVo;
 import com.eatwhat.entity.food.FoodWithScoreBo;
 import com.eatwhat.entity.food.FoodsVo;
 import com.eatwhat.service.FoodsService;
 import com.eatwhat.service.ScoreService;
+import com.eatwhat.service.ShopsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +41,9 @@ public class FoodsServiceImpl implements FoodsService {
 
     @Resource
     private ScoreService scoreService;
+
+    @Resource
+    private ShopsService shopsService;
 
     private static final Logger log = LoggerFactory.getLogger(FoodsService.class);
 
@@ -87,12 +94,21 @@ public class FoodsServiceImpl implements FoodsService {
      */
     @Override
     @Transactional
-    public Foods findById(String recordId) {
+    public FoodDetailVo findById(String recordId) {
         log.info("根据主键查询foods -> recordId={}", recordId);
 
-        Foods food = foodsMapper.findById(recordId);
+        FoodsVo food = foodsMapper.findFoodById(Long.parseLong(recordId));
 
-        return food;
+        FoodDetailVo detailVo = new FoodDetailVo();
+        BeanUtils.copyProperties(food,detailVo);
+
+        Shops shop = shopsService.findById(food.getId().toString());
+        detailVo.setShopsAddress(shop.getAddress());
+        detailVo.setShopsName(shop.getName());
+
+
+
+        return detailVo;
     }
 
 

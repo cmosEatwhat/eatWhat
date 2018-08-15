@@ -4,8 +4,6 @@ import com.eatwhat.entity.Shops;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
 * 描述：
 * @author xin_anzhang
@@ -26,17 +24,6 @@ public interface ShopsMapper {
     */
     int deleteById(@Param("recordId") String recordId);
 
-    /**
-    * @des 根据id集合删除
-    * @param idArr
-    */
-    int deleteByIdArr(@Param("idArr") Long[] idArr);
-
-    /**
-    * @des 修改Shops
-    * @param shops
-    */
-    int updateShops(Shops shops);
 
     /**
     * @des 根据Id获取
@@ -44,17 +31,7 @@ public interface ShopsMapper {
     */
     Shops findById(String recordId);
 
-    /**
-    * @des 根据id 集合查询信息
-    * @param idArr
-    */
-    List<Shops> findByIdArr(@Param("idArr") Long[] idArr);
 
 
-    /**
-    * @des 根据条件计数
-    * @param pageRequest
-    */
-    int count(Shops shops);
 
 }
