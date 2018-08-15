@@ -66,7 +66,7 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     @Transactional
     public Score saveScore(Score score) {
-        log.info("添加score -> score={}", JSONUtils.toJSONString(score));
+ //       log.info("添加score -> score={}", JSONUtils.toJSONString(score));
 //        score.setCreateTime(System.currentTimeMillis());
         int saveResult = scoreMapper.saveScore(score);
         if (saveResult < 1) {

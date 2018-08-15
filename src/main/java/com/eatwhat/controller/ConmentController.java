@@ -50,9 +50,9 @@ public class ConmentController {
      * @param conment
      * @des 创建
      */
-    @RequestMapping(value = "/save")
     @ResponseBody
-    public ServerResponse save(@RequestBody Conment conment) {
+    @RequestMapping(value = "/save",method = RequestMethod.GET)
+    public ServerResponse save(Conment conment) {
         return new ServerResponse<Conment>().createBySuccess(conmentService.saveConment(conment));
     }
 

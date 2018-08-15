@@ -26,6 +26,12 @@ public class Score implements Serializable {
     /**
      *食品Id
      */
+    @Column(name = "score_context")
+    private double context;
+
+    /**
+     *食品Id
+     */
     @Column(name = "food_id")
     private Long foodId;
 
@@ -76,7 +82,11 @@ public class Score implements Serializable {
         this.foodId = foodId;
     }
 
+    public double getContext() {
+        return context;
+    }
 
-
-
+    public void setContext(double context) {
+        this.context = context;
+    }
 }
