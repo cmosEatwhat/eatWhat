@@ -26,6 +26,11 @@ public class Category implements Serializable {
     private Long id;
 
     /**
+     *商铺Id
+     */
+    private Long shopId;
+
+    /**
      *类名
      */
     @Column(name = "category_name")
@@ -44,25 +49,5 @@ public class Category implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss ")
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date updateTime;
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-
-
-
 
 }

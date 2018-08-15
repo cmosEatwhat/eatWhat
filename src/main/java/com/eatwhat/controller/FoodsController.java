@@ -36,7 +36,7 @@ public class FoodsController {
      * @des 查询所有
      */
 
-    @ApiOperation(value = "查店铺所有菜品")
+    @ApiOperation(value = "查店铺（分类）所有菜品")
     @RequestMapping(value = "/listByShopIdAndCategoryId", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<List<FoodsVo>> findAllByShopsIdAndCategoryId( String shopId, String categoryId) {

@@ -56,23 +56,7 @@ public class FoodsServiceImpl implements FoodsService {
         return findFoodById(String.valueOf(foods.getId()));
     }
 
-    /**
-     * @param foods
-     * @des 修改 Foods
-     */
-    @Override
-    @Transactional
-    public Foods updateFoods(Foods foods) {
-        log.info("修改foods-> foods={}", JSONUtils.toJSONString(foods));
-        if (null == foods.getId()) {
-            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
-        }
-        int updateResult = foodsMapper.updateFoods(foods);
-        if (updateResult < 1) {
-            ServerResponse.createDefaultErrorMessage(ErrorCode.UPDATE_FAIL);
-        }
-        return findFoodById(String.valueOf(foods.getId()));
-    }
+
 
     private Foods findFoodById(String s) {
         return foodsMapper.findById(s);
@@ -96,19 +80,6 @@ public class FoodsServiceImpl implements FoodsService {
         return delResult;
     }
 
-    /**
-     * @param idArr
-     * @des 根据主键集合删除信息
-     */
-    @Override
-    @Transactional
-    public int deleteByIdArr(Long[] idArr) {
-        log.info("批量删除foods -> idArr={}", JSONUtils.toJSONString(idArr));
-        if (null == idArr || 0 == idArr.length) {
-            ServerResponse.createDefaultErrorMessage(ErrorCode.REQUEST_PARAMS_ERROR);
-        }
-        return foodsMapper.deleteByIdArr(idArr);
-    }
 
     /**
      * @param recordId
@@ -124,28 +95,7 @@ public class FoodsServiceImpl implements FoodsService {
         return food;
     }
 
-    /**
-     * @param idArr id集合
-     * @des 根据id 集合查询信息
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<FoodsVo> findByIdArr(Long[] idArr) {
-        log.info("根据主键集合查询foods -> idArr={}", JSONUtils.toJSONString(idArr));
-        return foodsMapper.findByIdArr(idArr);
-    }
 
-
-    /**
-     * @param foods
-     * @des 根据条件统计信息
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public int count(Foods foods) {
-        log.info("根据条件计数 -> foods={}", JSONUtils.toJSONString(foods));
-        return foodsMapper.count(foods);
-    }
 
 
     /*
